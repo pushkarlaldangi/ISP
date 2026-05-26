@@ -1,0 +1,79 @@
+# dependencies
+node_modules
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# next.js
+.next/
+out/
+build/
+dist/
+
+# turbo
+.turbo
+
+# production
+*.tsbuildinfo
+next-env.d.ts
+
+# misc
+.DS_Store
+*.pem
+Thumbs.db
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (do NOT commit any real env files)
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+.env.preview
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+# testing
+coverage
+.nyc_output
+playwright-report/
+playwright/.cache/
+test-results/
+
+# IDEs
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+
+# storybook
+storybook-static/
+
+# logs
+logs/
+*.log
+
+# supabase
+supabase/.branches
+supabase/.temp
+
+# local data dumps
+seed/dumps/

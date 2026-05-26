@@ -1,0 +1,19 @@
+{
+  "name": "@isp/config",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./index.js",
+  "files": [
+    "tsconfig.base.json",
+    "tsconfig.next.json",
+    "tsconfig.node.json",
+    "eslint-preset.cjs",
+    "tailwind-preset.cjs"
+  ],
+  "scripts": {
+    "lint": "echo 'no lint for config'",
+    "typecheck": "echo 'no typecheck for config'",
+    "test": "echo 'no tests'",
+    "clean": "echo 'nothing to clean'"
+  }
+}
