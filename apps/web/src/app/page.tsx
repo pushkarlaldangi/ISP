@@ -1,47 +1,65 @@
 import Link from 'next/link';
+import { ArrowRight, Sparkles } from 'lucide-react';
+
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 
 export default function HomePage() {
   return (
-    <main className="mx-auto flex min-h-screen max-w-4xl flex-col gap-8 px-6 py-16">
-      <header className="space-y-3">
-        <p className="text-muted-foreground text-sm uppercase tracking-wider">ISP</p>
+    <main className="container mx-auto max-w-5xl px-4 py-12 sm:py-20">
+      <section className="space-y-5">
+        <Badge variant="outline" className="rounded-full">
+          <Sparkles className="mr-1 h-3 w-3" aria-hidden /> Live intraday NAV
+        </Badge>
         <h1 className="text-balance text-4xl font-semibold tracking-tight sm:text-5xl">
-          Indian mutual funds, with live intraday NAV.
+          Indian mutual funds, with the NAV the market is already pricing.
         </h1>
         <p className="text-muted-foreground max-w-2xl text-balance text-lg">
-          Most platforms show you the previous day&apos;s NAV. This one estimates today&apos;s,
-          every 30 seconds, by combining each fund&apos;s last-disclosed equity holdings with live
-          stock prices.
+          Most platforms wait until 9 PM to show you yesterday&apos;s NAV. ISP estimates
+          today&apos;s every 30 seconds — combining each fund&apos;s last-disclosed equity holdings
+          with live stock prices.
         </p>
-      </header>
-
-      <section className="bg-card rounded-lg border p-6">
-        <h2 className="mb-4 text-lg font-semibold">Phase 0 — foundation in place</h2>
-        <ul className="text-muted-foreground grid gap-2 text-sm sm:grid-cols-2">
-          <li>• Turborepo monorepo, pnpm workspaces</li>
-          <li>• TypeScript strict across all packages</li>
-          <li>• Drizzle schema for funds, NAV, holdings, portfolios</li>
-          <li>• Pure financial-logic core (NAV, P&amp;L, XIRR) with tests</li>
-          <li>• AMFI + MFAPI + Yahoo provider adapters</li>
-          <li>• Tailwind design tokens with semantic gain/loss colors</li>
-        </ul>
+        <div className="flex flex-wrap gap-2 pt-2">
+          <Button asChild>
+            <Link href="/funds">
+              Browse funds <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/portfolio">Track a portfolio</Link>
+          </Button>
+        </div>
       </section>
 
-      <section className="bg-card rounded-lg border p-6">
-        <h2 className="mb-3 text-lg font-semibold">Next up</h2>
-        <p className="text-muted-foreground text-sm">
-          Phase 1 wires daily NAV sync from AMFI into the database, then Phase 2 ships the fund
-          browse + detail pages. See{' '}
-          <Link className="underline underline-offset-2" href="/funds">
-            /funds
-          </Link>{' '}
-          (currently empty) and the project PLAN.md for the full roadmap.
-        </p>
+      <section className="mt-16 grid gap-4 sm:grid-cols-3">
+        <Card>
+          <CardContent className="space-y-2 p-6">
+            <p className="text-sm font-medium">Live NAV</p>
+            <p className="text-muted-foreground text-sm">
+              Recalculates intraday from each fund&apos;s holdings, weighted by live equity prices.
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="space-y-2 p-6">
+            <p className="text-sm font-medium">Real portfolios</p>
+            <p className="text-muted-foreground text-sm">
+              Enter transactions or import your CAMS / KFinTech statement. Get P&amp;L, XIRR, and
+              day-change without waiting for the close.
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="space-y-2 p-6">
+            <p className="text-sm font-medium">Transparent sources</p>
+            <p className="text-muted-foreground text-sm">
+              Backed by AMFI, MFAPI, and Yahoo Finance — every confidence badge tells you exactly
+              what we know.
+            </p>
+          </CardContent>
+        </Card>
       </section>
-
-      <footer className="text-muted-foreground mt-auto text-xs">
-        Portfolio tracking only. Not investment advice. Not a SEBI-Registered Investment Advisor.
-      </footer>
     </main>
   );
 }

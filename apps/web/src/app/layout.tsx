@@ -1,5 +1,10 @@
 import type { Metadata, Viewport } from 'next';
 
+import { QueryProvider } from '@/components/query-provider';
+import { SiteFooter } from '@/components/site-footer';
+import { SiteHeader } from '@/components/site-header';
+import { ThemeProvider } from '@/components/theme-provider';
+
 import './globals.css';
 
 // NOTE: To enable Inter via next/font/google, restore the import below and
@@ -15,7 +20,6 @@ export const metadata: Metadata = {
   },
   description:
     'Live intraday estimated NAV for Indian mutual funds. Track portfolios, holdings, and P&L in real time.',
-  // Not a SEBI-Registered Investment Advisor — clearly stated in disclaimer + footer.
   robots: { index: true, follow: true },
 };
 
@@ -31,7 +35,20 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="font-sans">{children}</body>
+      <body className="flex min-h-screen flex-col font-sans">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <QueryProvider>
+            <SiteHeader />
+            <div className="flex-1">{children}</div>
+            <SiteFooter />
+          </QueryProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
