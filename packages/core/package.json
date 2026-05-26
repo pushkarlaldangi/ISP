@@ -9,9 +9,7 @@
     ".": "./src/index.ts",
     "./nav": "./src/navCalculator.ts",
     "./portfolio": "./src/portfolioCalc.ts",
-    "./tax": "./src/taxCalc.ts",
     "./sip": "./src/sipScheduler.ts",
-    "./ticker-map": "./src/tickerMap.ts",
     "./types": "./src/types.ts"
   },
   "scripts": {

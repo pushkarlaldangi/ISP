@@ -1,0 +1,139 @@
+{
+  "_meta": {
+    "note": "Manually curated, representative holdings for development only. Not authoritative. Replace via proper holdings ingestion before any live use.",
+    "asOfDate": "2026-04-30"
+  },
+  "holdings": [
+    {
+      "schemeCode": "118989",
+      "schemeNameHint": "HDFC Liquid Fund - Growth",
+      "items": [
+        {
+          "instrument": "Cash and equivalents",
+          "ticker": null,
+          "isin": null,
+          "assetType": "CASH",
+          "weightPct": 100.0
+        }
+      ]
+    },
+    {
+      "schemeCode": "119551",
+      "schemeNameHint": "Aditya Birla Sun Life Frontline Equity Fund - Growth",
+      "items": [
+        {
+          "instrument": "HDFC Bank Ltd",
+          "ticker": "HDFCBANK",
+          "isin": "INE040A01034",
+          "assetType": "EQUITY",
+          "weightPct": 8.5
+        },
+        {
+          "instrument": "ICICI Bank Ltd",
+          "ticker": "ICICIBANK",
+          "isin": "INE090A01021",
+          "assetType": "EQUITY",
+          "weightPct": 7.2
+        },
+        {
+          "instrument": "Reliance Industries Ltd",
+          "ticker": "RELIANCE",
+          "isin": "INE002A01018",
+          "assetType": "EQUITY",
+          "weightPct": 6.8
+        },
+        {
+          "instrument": "Infosys Ltd",
+          "ticker": "INFY",
+          "isin": "INE009A01021",
+          "assetType": "EQUITY",
+          "weightPct": 5.9
+        },
+        {
+          "instrument": "Larsen & Toubro Ltd",
+          "ticker": "LT",
+          "isin": "INE018A01030",
+          "assetType": "EQUITY",
+          "weightPct": 4.1
+        },
+        {
+          "instrument": "Bharti Airtel Ltd",
+          "ticker": "BHARTIARTL",
+          "isin": "INE397D01024",
+          "assetType": "EQUITY",
+          "weightPct": 3.8
+        },
+        {
+          "instrument": "ITC Ltd",
+          "ticker": "ITC",
+          "isin": "INE154A01025",
+          "assetType": "EQUITY",
+          "weightPct": 3.2
+        },
+        {
+          "instrument": "Axis Bank Ltd",
+          "ticker": "AXISBANK",
+          "isin": "INE238A01034",
+          "assetType": "EQUITY",
+          "weightPct": 3.0
+        },
+        {
+          "instrument": "Tata Consultancy Services Ltd",
+          "ticker": "TCS",
+          "isin": "INE467B01029",
+          "assetType": "EQUITY",
+          "weightPct": 2.9
+        },
+        {
+          "instrument": "Sun Pharmaceutical Industries Ltd",
+          "ticker": "SUNPHARMA",
+          "isin": "INE044A01036",
+          "assetType": "EQUITY",
+          "weightPct": 2.7
+        },
+        {
+          "instrument": "Kotak Mahindra Bank Ltd",
+          "ticker": "KOTAKBANK",
+          "isin": "INE237A01028",
+          "assetType": "EQUITY",
+          "weightPct": 2.5
+        },
+        {
+          "instrument": "State Bank of India",
+          "ticker": "SBIN",
+          "isin": "INE062A01020",
+          "assetType": "EQUITY",
+          "weightPct": 2.3
+        },
+        {
+          "instrument": "Hindustan Unilever Ltd",
+          "ticker": "HINDUNILVR",
+          "isin": "INE030A01027",
+          "assetType": "EQUITY",
+          "weightPct": 2.1
+        },
+        {
+          "instrument": "Maruti Suzuki India Ltd",
+          "ticker": "MARUTI",
+          "isin": "INE585B01010",
+          "assetType": "EQUITY",
+          "weightPct": 2.0
+        },
+        {
+          "instrument": "Mahindra & Mahindra Ltd",
+          "ticker": "M&M",
+          "isin": "INE101A01026",
+          "assetType": "EQUITY",
+          "weightPct": 1.9
+        },
+        {
+          "instrument": "Cash and equivalents",
+          "ticker": null,
+          "isin": null,
+          "assetType": "CASH",
+          "weightPct": 41.1
+        }
+      ]
+    }
+  ]
+}

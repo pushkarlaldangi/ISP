@@ -17,6 +17,7 @@
   "dependencies": {
     "@isp/core": "workspace:*",
     "@isp/db": "workspace:*",
+    "@isp/jobs": "workspace:*",
     "@isp/providers": "workspace:*",
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-dialog": "^1.1.4",
@@ -36,6 +37,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
+    "drizzle-orm": "^0.38.3",
     "framer-motion": "^11.15.0",
     "lru-cache": "^11.0.2",
     "lucide-react": "^0.469.0",

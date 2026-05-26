@@ -9,7 +9,7 @@
 import { parse } from 'date-fns';
 import { z } from 'zod';
 
-import { TransientProviderError } from '../types.js';
+import { TransientProviderError } from '../types';
 
 const BASE_URL = 'https://api.mfapi.in/mf';
 

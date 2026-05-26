@@ -27,7 +27,5 @@ export const users = pgTable(
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     deletedAt: timestamp('deleted_at', { withTimezone: true }),
   },
-  (t) => ({
-    authProviderIdx: index('users_auth_provider_idx').on(t.authProviderId),
-  }),
+  (t) => [index('users_auth_provider_idx').on(t.authProviderId)],
 );

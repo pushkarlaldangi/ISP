@@ -14,7 +14,7 @@ import type {
   Position,
   PositionValuation,
   Transaction,
-} from './types.js';
+} from './types';
 
 /**
  * Aggregate a flat list of transactions into per-fund positions.

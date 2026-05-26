@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { computeLiveNav } from './navCalculator.js';
-import type { Holding, Quote } from './types.js';
+import { computeLiveNav } from './navCalculator';
+import type { Holding, Quote } from './types';
 
 const yesterday = new Date('2026-05-25T15:30:00+05:30');
 const now = new Date('2026-05-26T13:00:00+05:30');

@@ -1,8 +1,8 @@
-import type { QuotesProvider } from '../types.js';
+import type { QuotesProvider } from '../types';
 
-import { YahooQuotesProvider } from './yahoo.js';
+import { YahooQuotesProvider } from './yahoo';
 
-export { YahooQuotesProvider } from './yahoo.js';
+export { YahooQuotesProvider } from './yahoo';
 
 /**
  * Default quotes facade. Phase 3 will add an NSE adapter and chain

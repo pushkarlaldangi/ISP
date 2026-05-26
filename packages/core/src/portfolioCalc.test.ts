@@ -7,8 +7,8 @@ import {
   computePortfolioXirr,
   summarizePortfolio,
   valuePositions,
-} from './portfolioCalc.js';
-import type { LiveNavResult, Transaction } from './types.js';
+} from './portfolioCalc';
+import type { LiveNavResult, Transaction } from './types';
 
 const txn = (overrides: Partial<Transaction>): Transaction => ({
   id: randomUUID(),

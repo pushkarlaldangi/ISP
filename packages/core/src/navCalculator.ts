@@ -14,7 +14,7 @@
  * quotes; this module never touches the network or DB.
  */
 
-import type { Holding, LiveNavInputs, LiveNavResult } from './types.js';
+import type { Holding, LiveNavInputs, LiveNavResult } from './types';
 
 const MIN_EQUITY_COVERAGE_FOR_ESTIMATE = 5; // % — below this, fallback to official
 const HIGH_CONFIDENCE_THRESHOLD = 80;

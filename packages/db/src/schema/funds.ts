@@ -29,11 +29,11 @@ export const funds = pgTable(
     latestNavDate: date('latest_nav_date'),
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
   },
-  (t) => ({
-    schemeNameIdx: index('funds_scheme_name_idx').on(t.schemeName),
-    categoryIdx: index('funds_category_idx').on(t.category),
-    amcIdx: index('funds_amc_idx').on(t.amcName),
-  }),
+  (t) => [
+    index('funds_scheme_name_idx').on(t.schemeName),
+    index('funds_category_idx').on(t.category),
+    index('funds_amc_idx').on(t.amcName),
+  ],
 );
 
 /**
@@ -49,10 +49,10 @@ export const navHistory = pgTable(
     navDate: date('nav_date').notNull(),
     nav: numeric('nav', { precision: 12, scale: 4 }).notNull(),
   },
-  (t) => ({
-    pk: primaryKey({ columns: [t.schemeCode, t.navDate] }),
-    dateIdx: index('nav_history_date_idx').on(t.navDate),
-  }),
+  (t) => [
+    primaryKey({ columns: [t.schemeCode, t.navDate] }),
+    index('nav_history_date_idx').on(t.navDate),
+  ],
 );
 
 /**
@@ -75,11 +75,11 @@ export const holdings = pgTable(
     marketValue: numeric('market_value', { precision: 18, scale: 2 }),
     quantity: numeric('quantity', { precision: 18, scale: 4 }),
   },
-  (t) => ({
-    schemeDateIdx: index('holdings_scheme_date_idx').on(t.schemeCode, t.asOfDate),
-    tickerIdx: index('holdings_ticker_idx').on(t.ticker),
-    uniq: unique('holdings_scheme_date_instrument_uniq').on(t.schemeCode, t.asOfDate, t.instrument),
-  }),
+  (t) => [
+    index('holdings_scheme_date_idx').on(t.schemeCode, t.asOfDate),
+    index('holdings_ticker_idx').on(t.ticker),
+    unique('holdings_scheme_date_instrument_uniq').on(t.schemeCode, t.asOfDate, t.instrument),
+  ],
 );
 
 /**

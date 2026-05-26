@@ -8,8 +8,8 @@ import yahooFinance from 'yahoo-finance2';
 
 import type { Quote } from '@isp/core/types';
 
-import type { QuotesProvider } from '../types.js';
-import { TransientProviderError } from '../types.js';
+import type { QuotesProvider } from '../types';
+import { TransientProviderError } from '../types';
 
 export class YahooQuotesProvider implements QuotesProvider {
   readonly name = 'yahoo';

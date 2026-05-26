@@ -1,7 +1,7 @@
 import { addDays } from 'date-fns';
 import { describe, expect, it } from 'vitest';
 
-import { generateSipDates } from './sipScheduler.js';
+import { generateSipDates } from './sipScheduler';
 
 describe('generateSipDates', () => {
   it('returns empty when endDate < startDate', () => {

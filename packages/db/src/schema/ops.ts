@@ -10,8 +10,8 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 
-import { portfolios } from './portfolios.js';
-import { users } from './users.js';
+import { portfolios } from './portfolios';
+import { users } from './users';
 
 /**
  * Immutable audit log of every mutation to user-owned data. Used for
@@ -33,11 +33,11 @@ export const auditLog = pgTable(
     userAgent: text('user_agent'),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   },
-  (t) => ({
-    userIdx: index('audit_log_user_idx').on(t.userId),
-    actionIdx: index('audit_log_action_idx').on(t.action),
-    createdIdx: index('audit_log_created_idx').on(t.createdAt),
-  }),
+  (t) => [
+    index('audit_log_user_idx').on(t.userId),
+    index('audit_log_action_idx').on(t.action),
+    index('audit_log_created_idx').on(t.createdAt),
+  ],
 );
 
 /**
@@ -73,7 +73,5 @@ export const providerHealth = pgTable(
     error: text('error'),
     occurredAt: timestamp('occurred_at', { withTimezone: true }).notNull().defaultNow(),
   },
-  (t) => ({
-    providerIdx: index('provider_health_provider_idx').on(t.provider, t.occurredAt),
-  }),
+  (t) => [index('provider_health_provider_idx').on(t.provider, t.occurredAt)],
 );

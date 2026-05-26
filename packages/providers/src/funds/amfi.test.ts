@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { parseNavAll } from './amfi.js';
+import { parseNavAll } from './amfi';
 
 const SAMPLE = `
 Open Ended Schemes(Equity Scheme - Large Cap Fund)

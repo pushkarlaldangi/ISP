@@ -1,3 +1,3 @@
-export * from './types.js';
-export { getFundsProvider } from './funds/index.js';
-export { getQuotesProvider } from './quotes/index.js';
+export * from './types';
+export { getFundsProvider, AmfiFundsProvider, parseNavAll, MfApiClient } from './funds';
+export { getQuotesProvider, YahooQuotesProvider } from './quotes';

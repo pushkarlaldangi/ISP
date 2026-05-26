@@ -3,5 +3,10 @@
   "framework": "nextjs",
   "buildCommand": "cd ../.. && pnpm build --filter=@isp/web",
   "installCommand": "cd ../.. && pnpm install --frozen-lockfile",
-  "crons": []
+  "crons": [
+    {
+      "path": "/api/cron/sync-nav",
+      "schedule": "0 15 * * *"
+    }
+  ]
 }

@@ -17,8 +17,8 @@ import { parse } from 'date-fns';
 
 import type { Fund } from '@isp/core/types';
 
-import type { FundMasterRecord, FundsProvider } from '../types.js';
-import { PermanentProviderError, TransientProviderError } from '../types.js';
+import type { FundMasterRecord, FundsProvider } from '../types';
+import { PermanentProviderError, TransientProviderError } from '../types';
 
 const NAV_ALL_URL = 'https://www.amfiindia.com/spages/NAVAll.txt';
 const HEADER_PREFIX = 'Scheme Code';

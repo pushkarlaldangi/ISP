@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   // Allow importing TS source directly from workspace packages.
-  transpilePackages: ['@isp/core', '@isp/db', '@isp/providers'],
+  transpilePackages: ['@isp/core', '@isp/db', '@isp/jobs', '@isp/providers'],
   // Security headers — defense-in-depth on top of Vercel + Cloudflare defaults.
   async headers() {
     return [

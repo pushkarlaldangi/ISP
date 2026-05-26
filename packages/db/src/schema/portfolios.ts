@@ -13,8 +13,8 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 
-import { funds } from './funds.js';
-import { users } from './users.js';
+import { funds } from './funds';
+import { users } from './users';
 
 export const portfolios = pgTable(
   'portfolios',
@@ -28,9 +28,7 @@ export const portfolios = pgTable(
     isDefault: boolean('is_default').notNull().default(false),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   },
-  (t) => ({
-    userIdx: index('portfolios_user_idx').on(t.userId),
-  }),
+  (t) => [index('portfolios_user_idx').on(t.userId)],
 );
 
 export const portfolioTransactions = pgTable(
@@ -51,11 +49,11 @@ export const portfolioTransactions = pgTable(
     note: text('note'),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   },
-  (t) => ({
-    portfolioIdx: index('portfolio_txn_portfolio_idx').on(t.portfolioId),
-    schemeIdx: index('portfolio_txn_scheme_idx').on(t.schemeCode),
-    dateIdx: index('portfolio_txn_date_idx').on(t.txnDate),
-  }),
+  (t) => [
+    index('portfolio_txn_portfolio_idx').on(t.portfolioId),
+    index('portfolio_txn_scheme_idx').on(t.schemeCode),
+    index('portfolio_txn_date_idx').on(t.txnDate),
+  ],
 );
 
 export const watchlist = pgTable(
@@ -70,9 +68,7 @@ export const watchlist = pgTable(
       .references(() => funds.schemeCode),
     addedAt: timestamp('added_at', { withTimezone: true }).notNull().defaultNow(),
   },
-  (t) => ({
-    uniq: unique('watchlist_user_scheme_uniq').on(t.userId, t.schemeCode),
-  }),
+  (t) => [unique('watchlist_user_scheme_uniq').on(t.userId, t.schemeCode)],
 );
 
 export const portfolioSnapshots = pgTable(
@@ -85,9 +81,7 @@ export const portfolioSnapshots = pgTable(
     totalInvested: numeric('total_invested', { precision: 18, scale: 2 }).notNull(),
     totalValue: numeric('total_value', { precision: 18, scale: 2 }).notNull(),
   },
-  (t) => ({
-    pk: primaryKey({ columns: [t.portfolioId, t.snapshotDate] }),
-  }),
+  (t) => [primaryKey({ columns: [t.portfolioId, t.snapshotDate] })],
 );
 
 export const goals = pgTable('goals', {
