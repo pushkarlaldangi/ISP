@@ -6,7 +6,7 @@ import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
 import { FundCategoryBadge } from '@/components/funds/fund-category-badge';
-import { Badge } from '@/components/ui/badge';
+import { LiveNavWidget } from '@/components/funds/live-nav-widget';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -95,12 +95,7 @@ export function FundDetail({
           }
           sublabel="vs previous NAV"
         />
-        <KpiCard
-          label="Live estimate"
-          value="—"
-          sublabel="Phase 3"
-          badge={<Badge variant="outline">soon</Badge>}
-        />
+        <LiveNavWidget schemeCode={fund.schemeCode} />
       </div>
 
       <Tabs defaultValue="overview" className="space-y-6">
@@ -138,8 +133,7 @@ export function FundDetail({
         <TabsContent value="performance">
           <Card>
             <CardContent className="text-muted-foreground p-6 text-sm">
-              Returns table (1D / 1W / 1M / 3M / 6M / 1Y / 3Y) lands in Phase 3 alongside the live
-              NAV widget.
+              Returns table (1D / 1W / 1M / 3M / 6M / 1Y / 3Y CAGR) lands in a later phase.
             </CardContent>
           </Card>
         </TabsContent>
@@ -153,21 +147,16 @@ function KpiCard({
   value,
   sublabel,
   valueClass,
-  badge,
 }: {
   label: string;
   value: string;
   sublabel?: string;
   valueClass?: string;
-  badge?: React.ReactNode;
 }) {
   return (
     <Card>
       <CardContent className="space-y-1 p-5">
-        <div className="flex items-center justify-between">
-          <p className="text-muted-foreground text-xs uppercase tracking-wide">{label}</p>
-          {badge}
-        </div>
+        <p className="text-muted-foreground text-xs uppercase tracking-wide">{label}</p>
         <p className={`text-2xl font-semibold tabular-nums ${valueClass ?? ''}`}>{value}</p>
         {sublabel && <p className="text-muted-foreground text-xs">{sublabel}</p>}
       </CardContent>
