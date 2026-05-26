@@ -1,5 +1,5 @@
 {
-  "name": "@isp/core",
+  "name": "@isp/providers",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -7,30 +7,26 @@
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./nav": "./src/navCalculator.ts",
-    "./portfolio": "./src/portfolioCalc.ts",
-    "./tax": "./src/taxCalc.ts",
-    "./sip": "./src/sipScheduler.ts",
-    "./ticker-map": "./src/tickerMap.ts",
-    "./types": "./src/types.ts"
+    "./funds": "./src/funds/index.ts",
+    "./quotes": "./src/quotes/index.ts",
+    "./holdings": "./src/holdings/index.ts"
   },
   "scripts": {
     "lint": "eslint src --max-warnings=0",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --coverage",
-    "test:watch": "vitest",
+    "test": "vitest run",
     "clean": "rm -rf dist .turbo coverage"
   },
   "dependencies": {
+    "@isp/core": "workspace:*",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
-    "xirr": "^1.1.0",
+    "yahoo-finance2": "^2.13.3",
     "zod": "^3.24.1"
   },
   "devDependencies": {
     "@isp/config": "workspace:*",
     "@types/node": "^22.10.5",
-    "@vitest/coverage-v8": "^2.1.8",
     "typescript": "^5.7.3",
     "vitest": "^2.1.8"
   }

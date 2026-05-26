@@ -12,8 +12,15 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-geist-mono)', 'ui-monospace', 'monospace'],
+        sans: [
+          'var(--font-inter, "Inter")',
+          'system-ui',
+          '-apple-system',
+          'Segoe UI',
+          'Roboto',
+          'sans-serif',
+        ],
+        mono: ['var(--font-geist-mono, "Geist Mono")', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       fontFeatureSettings: {
         tnum: '"tnum"',
