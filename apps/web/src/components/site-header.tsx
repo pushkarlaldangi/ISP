@@ -1,4 +1,8 @@
+import { cookies } from 'next/headers';
 import Link from 'next/link';
+import { Settings } from 'lucide-react';
+
+import { getCurrentUser } from '@isp/auth';
 
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
@@ -9,7 +13,18 @@ const nav = [
   { href: '/watchlist', label: 'Watchlist' },
 ];
 
-export function SiteHeader() {
+export async function SiteHeader() {
+  let signedIn = false;
+  try {
+    const cookieStore = await cookies();
+    const me = await getCurrentUser(cookieStore);
+    signedIn = !!me;
+  } catch {
+    // Auth misconfig / DB unreachable shouldn't break the shell — pages
+    // still render anonymously and any authed route will redirect to /sign-in.
+    signedIn = false;
+  }
+
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-40 w-full border-b backdrop-blur">
       <div className="container mx-auto flex h-14 max-w-6xl items-center px-4">
@@ -26,8 +41,19 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex items-center gap-1">
           <ThemeToggle />
+          {signedIn ? (
+            <Button asChild variant="ghost" size="icon" aria-label="Settings">
+              <Link href="/settings">
+                <Settings className="h-4 w-4" />
+              </Link>
+            </Button>
+          ) : (
+            <Button asChild variant="outline" size="sm">
+              <Link href="/sign-in">Sign in</Link>
+            </Button>
+          )}
         </div>
       </div>
     </header>

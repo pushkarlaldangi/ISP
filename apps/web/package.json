@@ -15,6 +15,7 @@
     "clean": "rm -rf .next .turbo coverage playwright-report test-results"
   },
   "dependencies": {
+    "@isp/auth": "workspace:*",
     "@isp/core": "workspace:*",
     "@isp/db": "workspace:*",
     "@isp/jobs": "workspace:*",
