@@ -247,7 +247,12 @@ function EmptyChart() {
   );
 }
 
-function EmptyHoldings({ onRetry }: { onRetry: () => void }) {
+function EmptyHoldings({ onRetry, schemeCode }: { onRetry: () => void; schemeCode: string }) {
+  // AMFI portfolio holdings page for this specific scheme
+  const amfiHoldingsUrl = `https://www.amfiindia.com/modules/PortfolioHoldingsdata?SchemeCode=${schemeCode}`;
+  // AMFI NAV search page — user can search by scheme name
+  const amfiNavUrl = `https://www.amfiindia.com/nav-history`;
+
   return (
     <Card>
       <CardContent className="space-y-3 p-6">
@@ -257,18 +262,26 @@ function EmptyHoldings({ onRetry }: { onRetry: () => void }) {
           top ~20 popular equity funds. Debt, liquid, and some hybrid funds don&apos;t publish
           equity-style holdings breakdowns.
         </p>
-        <div className="flex gap-2 pt-1">
+        <div className="flex flex-wrap gap-2 pt-1">
           <Button variant="outline" size="sm" onClick={onRetry} className="gap-1.5">
             <RefreshCw className="h-3.5 w-3.5" />
             Try fetching again
           </Button>
           <a
-            href="https://www.amfiindia.com/nav-history-download"
+            href={amfiHoldingsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-primary inline-flex items-center gap-1.5 rounded-md border border-transparent px-3 py-1.5 text-xs underline-offset-2 hover:underline"
+            className="text-primary hover:bg-muted inline-flex items-center gap-1 rounded-md border px-3 py-1.5 text-xs"
           >
-            View on AMFI ↗
+            Portfolio on AMFI ↗
+          </a>
+          <a
+            href={amfiNavUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:bg-muted inline-flex items-center gap-1 rounded-md border px-3 py-1.5 text-xs"
+          >
+            NAV History ↗
           </a>
         </div>
       </CardContent>
