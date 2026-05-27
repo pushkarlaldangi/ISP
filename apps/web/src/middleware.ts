@@ -9,21 +9,19 @@ import { createServerClient } from '@supabase/ssr';
  * 1. Refresh Supabase auth session (keeps cookie fresh)
  * 2. Redirect unauthenticated users away from protected routes
  * 3. Add Content-Security-Policy header
+ *
+ * NOTE: /auth/* is intentionally excluded from this middleware via the
+ * matcher so we never interfere with the PKCE callback exchange.
  */
 
-// Routes that require an authenticated session
 const PROTECTED_PREFIXES = ['/portfolio', '/watchlist', '/settings', '/alerts'];
-
-// Routes that should redirect to /portfolio if already signed in
 const AUTH_ROUTES = ['/sign-in'];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Create a response we can mutate (for cookie refresh)
   let response = NextResponse.next({ request });
 
-  // Refresh Supabase session — this keeps the access token alive
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
@@ -53,7 +51,6 @@ export async function middleware(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser();
 
-    // Redirect unauthenticated users from protected routes
     const isProtected = PROTECTED_PREFIXES.some((p) => pathname.startsWith(p));
     if (isProtected && !user) {
       const redirectUrl = request.nextUrl.clone();
@@ -62,7 +59,6 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(redirectUrl);
     }
 
-    // Redirect signed-in users away from auth routes
     const isAuthRoute = AUTH_ROUTES.some((p) => pathname.startsWith(p));
     if (isAuthRoute && user) {
       const redirectUrl = request.nextUrl.clone();
@@ -73,7 +69,6 @@ export async function middleware(request: NextRequest) {
   }
 
   // Content-Security-Policy
-  // Allows: same-origin, Supabase, PostHog, Sentry; blocks everything else
   const supabaseHost = supabaseUrl ? new URL(supabaseUrl).host : '';
   const csp = [
     `default-src 'self'`,
@@ -98,12 +93,14 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     /*
-     * Match all paths except:
-     * - _next/static (static files)
-     * - _next/image (image optimization)
-     * - favicon.ico, robots.txt, sitemap.xml (static assets)
-     * - Public API routes that don't need session refresh
+     * Exclude:
+     * - _next/static, _next/image  (Next.js internals)
+     * - favicon.ico, robots.txt, sitemap.xml
+     * - /auth/*  ← CRITICAL: never run middleware on the PKCE callback
+     *             route — it would call getUser() and corrupt the
+     *             code_verifier cookie before the route handler reads it
+     * - /api/*   (API routes handle their own auth)
      */
-    '/((?!_next/static|_next/image|favicon\\.ico|robots\\.txt|sitemap\\.xml).*)',
+    '/((?!_next/static|_next/image|favicon\\.ico|robots\\.txt|sitemap\\.xml|auth/|api/).*)',
   ],
 };

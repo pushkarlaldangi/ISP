@@ -1,16 +1,16 @@
 /**
  * GET /auth/callback
  *
- * Landing URL for magic-link / OAuth redirects from Supabase. Supabase
- * sends the user here with a `?code=…` query — we exchange it for a
- * session (cookies are written by the SSR client), bootstrap our public
- * users row, write an audit entry, then forward to `?next`.
+ * Handles the server-side leg of the auth flow.
  *
- * IMPORTANT: We construct the Supabase client directly here (not via the
- * shared helper) so we can write session cookies onto the NextResponse
- * object. The shared helper silently swallows cookie writes in server
- * components — that causes "PKCE code verifier not found" if the verifier
- * cookie was never persisted from the signInWithOtp call.
+ * Magic links with implicit flow: Supabase redirects to this URL with
+ * `#access_token=...` in the fragment. Fragments are never sent to the
+ * server, so we serve a tiny HTML page that lets the Supabase JS client
+ * (loaded inline) exchange the fragment for a session cookie, then
+ * redirects to `?next`.
+ *
+ * PKCE flow (OAuth, future): arrives with `?code=...` — handled directly
+ * in this route handler.
  */
 
 import { headers } from 'next/headers';
@@ -36,17 +36,57 @@ export async function GET(req: NextRequest) {
       new URL(`/sign-in?error=${encodeURIComponent(errorDesc)}`, origin),
     );
   }
+
+  // ── Implicit flow ────────────────────────────────────────────────────────
+  // No `code` param means the token arrives in the URL hash (e.g.
+  // #access_token=...&refresh_token=...). Hashes are never sent to the
+  // server, so we serve a small client-side page that calls
+  // supabase.auth.getSession() — which reads the hash, sets the cookies,
+  // then redirects to `next`.
   if (!code) {
-    return NextResponse.redirect(
-      new URL(`/sign-in?error=${encodeURIComponent('Missing sign-in code.')}`, origin),
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+    const nextPath = encodeURIComponent(next);
+
+    // Inline script — tiny, no external deps other than Supabase CDN
+    const html = `<!DOCTYPE html>
+<html>
+<head><title>Signing in…</title></head>
+<body>
+<p style="font-family:sans-serif;padding:2rem">Completing sign-in…</p>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+(async () => {
+  const { createClient } = supabase;
+  const client = createClient(
+    ${JSON.stringify(supabaseUrl)},
+    ${JSON.stringify(supabaseAnonKey)},
+    { auth: { flowType: 'implicit' } }
+  );
+  // getSession() reads #access_token from the hash and sets cookies
+  const { data, error } = await client.auth.getSession();
+  if (error || !data.session) {
+    window.location.href = '/sign-in?error=' + encodeURIComponent(
+      (error && error.message) || 'Sign-in failed. Please request a new link.'
     );
+    return;
+  }
+  window.location.href = decodeURIComponent(${JSON.stringify(nextPath)}) || '/';
+})();
+</script>
+</body>
+</html>`;
+
+    return new NextResponse(html, {
+      status: 200,
+      headers: { 'Content-Type': 'text/html; charset=utf-8' },
+    });
   }
 
-  // Build a response we can mutate — Supabase needs to write session cookies
-  // onto the actual HTTP response, not just into next/headers.
+  // ── PKCE flow (OAuth / future use) ───────────────────────────────────────
   const response = NextResponse.redirect(new URL(next, origin));
 
-  const supabase = createServerClient(
+  const supabase = createServerClient<Record<string, unknown>>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
@@ -57,8 +97,6 @@ export async function GET(req: NextRequest) {
         setAll(
           cookiesToSet: Array<{ name: string; value: string; options?: Record<string, unknown> }>,
         ) {
-          // Write onto both the request (so subsequent getAll() see them)
-          // and the response (so the browser receives them).
           for (const { name, value, options } of cookiesToSet) {
             req.cookies.set(name, value);
             response.cookies.set(
@@ -85,7 +123,6 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  // Mirror into our users table (idempotent).
   let userId: string | null = null;
   try {
     const row = await bootstrapUser({
@@ -95,8 +132,6 @@ export async function GET(req: NextRequest) {
     });
     userId = row.id;
   } catch (err) {
-    // Don't block sign-in on a bootstrap failure — the session cookie is
-    // already set; the user can still browse and the row will be retried.
     console.warn('[auth/callback] bootstrap failed:', err);
   }
 
@@ -114,7 +149,6 @@ export async function GET(req: NextRequest) {
   return response;
 }
 
-/** Only allow internal relative paths as the post-login destination. */
 function sanitizeNext(raw: string | null): string {
   if (!raw) return '/';
   if (!raw.startsWith('/') || raw.startsWith('//')) return '/';
