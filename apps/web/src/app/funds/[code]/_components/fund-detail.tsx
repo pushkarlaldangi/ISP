@@ -170,7 +170,7 @@ export function FundDetail({
                     : 'Holdings not yet available for this fund.'}
               </p>
             </div>
-            {!loading && (
+            {!loading && holdings.length > 0 && (
               <Button
                 variant="outline"
                 size="sm"
@@ -178,7 +178,7 @@ export function FundDetail({
                 className="gap-1.5"
               >
                 <RefreshCw className="h-3.5 w-3.5" />
-                {holdings.length > 0 ? 'Refresh prices' : 'Retry'}
+                Refresh prices
               </Button>
             )}
           </div>
@@ -198,7 +198,7 @@ export function FundDetail({
               </CardContent>
             </Card>
           ) : holdings.length === 0 ? (
-            <EmptyHoldings />
+            <EmptyHoldings onRetry={() => void refresh()} />
           ) : (
             <HoldingsTable rows={holdings} />
           )}
@@ -247,12 +247,30 @@ function EmptyChart() {
   );
 }
 
-function EmptyHoldings() {
+function EmptyHoldings({ onRetry }: { onRetry: () => void }) {
   return (
     <Card>
-      <CardContent className="text-muted-foreground p-6 text-sm">
-        Holdings have not been imported for this fund yet. Live NAV estimation requires holdings;
-        without them we&apos;ll fall back to the official NAV.
+      <CardContent className="space-y-3 p-6">
+        <p className="text-sm font-medium">Holdings not available for this fund</p>
+        <p className="text-muted-foreground text-xs leading-relaxed">
+          Detailed portfolio holdings are published monthly by AMCs. We have curated data for the
+          top ~20 popular equity funds. Debt, liquid, and some hybrid funds don&apos;t publish
+          equity-style holdings breakdowns.
+        </p>
+        <div className="flex gap-2 pt-1">
+          <Button variant="outline" size="sm" onClick={onRetry} className="gap-1.5">
+            <RefreshCw className="h-3.5 w-3.5" />
+            Try fetching again
+          </Button>
+          <a
+            href="https://www.amfiindia.com/nav-history-download"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary inline-flex items-center gap-1.5 rounded-md border border-transparent px-3 py-1.5 text-xs underline-offset-2 hover:underline"
+          >
+            View on AMFI ↗
+          </a>
+        </div>
       </CardContent>
     </Card>
   );
