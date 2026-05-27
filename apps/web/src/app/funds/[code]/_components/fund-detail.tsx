@@ -247,11 +247,12 @@ function EmptyChart() {
   );
 }
 
-function EmptyHoldings({ onRetry, schemeCode }: { onRetry: () => void; schemeCode: string }) {
-  // AMFI portfolio holdings page for this specific scheme
-  const amfiHoldingsUrl = `https://www.amfiindia.com/modules/PortfolioHoldingsdata?SchemeCode=${schemeCode}`;
-  // AMFI NAV search page — user can search by scheme name
-  const amfiNavUrl = `https://www.amfiindia.com/nav-history`;
+function EmptyHoldings({ onRetry }: { onRetry: () => void; schemeCode: string }) {
+  // AMFI portfolio disclosure search page — always works (user searches by fund name)
+  const amfiPortfolioUrl =
+    'https://www.amfiindia.com/research-information/other-data/mf-portfolio-disclosure';
+  // AMFI NAV history page
+  const amfiNavUrl = 'https://www.amfiindia.com/nav-history';
 
   return (
     <Card>
@@ -268,12 +269,12 @@ function EmptyHoldings({ onRetry, schemeCode }: { onRetry: () => void; schemeCod
             Try fetching again
           </Button>
           <a
-            href={amfiHoldingsUrl}
+            href={amfiPortfolioUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary hover:bg-muted inline-flex items-center gap-1 rounded-md border px-3 py-1.5 text-xs"
           >
-            Portfolio on AMFI ↗
+            Portfolio disclosures on AMFI ↗
           </a>
           <a
             href={amfiNavUrl}
