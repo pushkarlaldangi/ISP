@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
 
 import { FundCategoryBadge } from '@/components/funds/fund-category-badge';
@@ -10,9 +10,11 @@ import { LiveNavWidget } from '@/components/funds/live-nav-widget';
 import { WatchlistButton } from '@/components/funds/watchlist-button';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { formatInr, formatPct, signedColor } from '@/lib/utils';
 
+import type { HoldingRow } from './holdings-table';
 import { HoldingsTable } from './holdings-table';
 import { NavHistoryChart } from './nav-history-chart';
 
@@ -26,29 +28,55 @@ interface FundRow {
   latestNavDate: string | null;
 }
 
-interface HoldingRow {
-  id: number;
-  instrument: string;
-  ticker: string | null;
-  isin: string | null;
-  assetType: string;
-  weightPct: number | null;
-  marketValue: number | null;
-  quantity: number | null;
+// ─── Holdings fetch hook ──────────────────────────────────────────────────────
+interface HoldingsState {
+  holdings: HoldingRow[];
+  asOf: string | null;
+  loading: boolean;
+  error: string | null;
 }
 
+function useHoldings(schemeCode: string) {
+  const [state, setState] = React.useState<HoldingsState>({
+    holdings: [],
+    asOf: null,
+    loading: true,
+    error: null,
+  });
+
+  const fetchHoldings = React.useCallback(async () => {
+    setState((s) => ({ ...s, loading: true, error: null }));
+    try {
+      const res = await fetch(`/api/holdings/${encodeURIComponent(schemeCode)}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = (await res.json()) as { holdings: HoldingRow[]; asOf: string | null };
+      setState({ holdings: data.holdings, asOf: data.asOf, loading: false, error: null });
+    } catch (e) {
+      setState((s) => ({
+        ...s,
+        loading: false,
+        error: e instanceof Error ? e.message : 'Failed to load holdings',
+      }));
+    }
+  }, [schemeCode]);
+
+  // Fetch on mount
+  React.useEffect(() => {
+    void fetchHoldings();
+  }, [fetchHoldings]);
+
+  return { ...state, refresh: fetchHoldings };
+}
+
+// ─── Main component ───────────────────────────────────────────────────────────
 export function FundDetail({
   fund,
   history,
-  holdings,
-  holdingsAsOf,
   signedIn = false,
   isWatched = false,
 }: {
   fund: FundRow;
   history: { date: string; nav: number }[];
-  holdings: HoldingRow[];
-  holdingsAsOf: string | null;
   signedIn?: boolean;
   isWatched?: boolean;
 }) {
@@ -58,6 +86,8 @@ export function FundDetail({
   const dayDeltaPct =
     last !== null && prev !== null && prev !== 0 ? ((last - prev) / prev) * 100 : null;
   const dayColor = dayDeltaPct === null ? 'neutral' : signedColor(dayDeltaPct);
+
+  const { holdings, asOf, loading, error, refresh } = useHoldings(fund.schemeCode);
 
   return (
     <div className="space-y-8">
@@ -111,7 +141,9 @@ export function FundDetail({
       <Tabs defaultValue="overview" className="space-y-6">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="holdings">Holdings ({holdings.length})</TabsTrigger>
+          <TabsTrigger value="holdings">
+            Holdings {!loading && holdings.length > 0 ? `(${holdings.length})` : ''}
+          </TabsTrigger>
           <TabsTrigger value="performance">Performance</TabsTrigger>
         </TabsList>
 
@@ -131,13 +163,45 @@ export function FundDetail({
             <div>
               <h2 className="text-lg font-semibold">Portfolio holdings</h2>
               <p className="text-muted-foreground text-xs">
-                {holdingsAsOf
-                  ? `As of ${holdingsAsOf}. AMCs disclose holdings monthly — this may be 2–4 weeks behind today's portfolio.`
-                  : 'Holdings have not been imported for this fund yet.'}
+                {asOf
+                  ? `As of ${asOf}. AMCs disclose holdings monthly — data may be 2–4 weeks behind.`
+                  : loading
+                    ? 'Loading holdings…'
+                    : 'Holdings not yet available for this fund.'}
               </p>
             </div>
+            {!loading && !error && holdings.length > 0 && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => void refresh()}
+                className="gap-1.5"
+              >
+                <RefreshCw className="h-3.5 w-3.5" />
+                Refresh prices
+              </Button>
+            )}
           </div>
-          {holdings.length === 0 ? <EmptyHoldings /> : <HoldingsTable rows={holdings} />}
+
+          {loading ? (
+            <HoldingsSkeleton />
+          ) : error ? (
+            <Card>
+              <CardContent className="text-muted-foreground p-6 text-sm">
+                Could not load holdings: {error}.{' '}
+                <button
+                  onClick={() => void refresh()}
+                  className="text-primary underline underline-offset-2"
+                >
+                  Retry
+                </button>
+              </CardContent>
+            </Card>
+          ) : holdings.length === 0 ? (
+            <EmptyHoldings />
+          ) : (
+            <HoldingsTable rows={holdings} />
+          )}
         </TabsContent>
 
         <TabsContent value="performance">
@@ -152,6 +216,7 @@ export function FundDetail({
   );
 }
 
+// ─── Small sub-components ─────────────────────────────────────────────────────
 function KpiCard({
   label,
   value,
@@ -188,6 +253,30 @@ function EmptyHoldings() {
       <CardContent className="text-muted-foreground p-6 text-sm">
         Holdings have not been imported for this fund yet. Live NAV estimation requires holdings;
         without them we&apos;ll fall back to the official NAV.
+      </CardContent>
+    </Card>
+  );
+}
+
+function HoldingsSkeleton() {
+  return (
+    <Card className="overflow-hidden">
+      <CardContent className="p-0">
+        <div className="bg-muted/40 h-9 border-b" />
+        <ul className="divide-y">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <li key={i} className="flex items-center gap-3 px-4 py-3">
+              <div className="flex-1 space-y-1.5">
+                <Skeleton className="h-4 w-48" />
+                <Skeleton className="h-3 w-20" />
+              </div>
+              <Skeleton className="h-4 w-10" />
+              <Skeleton className="h-4 w-12" />
+              <Skeleton className="h-4 w-16" />
+              <Skeleton className="h-4 w-14" />
+            </li>
+          ))}
+        </ul>
       </CardContent>
     </Card>
   );
