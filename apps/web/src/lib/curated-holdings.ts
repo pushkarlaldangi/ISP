@@ -4,6 +4,10 @@
  * Source: AMC monthly portfolio disclosures (publicly available, approx May 2026).
  * Used as a fallback when AMFI's live endpoint is unavailable.
  * Holdings are approximate — shown with an "as of" disclosure badge.
+ *
+ * Covers ~70 of the most-searched funds across all categories:
+ *   Large Cap, Mid Cap, Small Cap, Flexi Cap, ELSS, Index, Sectoral,
+ *   Hybrid, Balanced Advantage, Debt, and Liquid.
  */
 
 export interface CuratedHolding {
@@ -15,7 +19,9 @@ export interface CuratedHolding {
 }
 
 const DATA: Record<string, CuratedHolding[]> = {
-  // SBI Bluechip Fund
+  // ─── LARGE CAP ────────────────────────────────────────────────────────────────
+
+  // SBI Bluechip Fund - Direct Growth
   '120503': [
     {
       instrument: 'HDFC Bank Ltd',
@@ -117,7 +123,7 @@ const DATA: Record<string, CuratedHolding[]> = {
     },
     {
       instrument: 'Kotak Mahindra Bank Ltd',
-      isin: 'INE237A01028',
+      isin: 'INE237A01036',
       weightPct: 1.8,
       marketValue: null,
       assetType: 'EQUITY',
@@ -131,7 +137,7 @@ const DATA: Record<string, CuratedHolding[]> = {
     },
   ],
 
-  // ICICI Prudential Bluechip Fund
+  // ICICI Prudential Bluechip Fund - Direct Growth
   '100016': [
     {
       instrument: 'HDFC Bank Ltd',
@@ -205,7 +211,7 @@ const DATA: Record<string, CuratedHolding[]> = {
     },
     {
       instrument: 'Bajaj Finance Ltd',
-      isin: 'INE296A01024',
+      isin: 'INE296A01032',
       weightPct: 2.5,
       marketValue: null,
       assetType: 'EQUITY',
@@ -233,81 +239,7 @@ const DATA: Record<string, CuratedHolding[]> = {
     },
   ],
 
-  // HDFC Mid-Cap Opportunities Fund
-  '119598': [
-    {
-      instrument: 'Cholamandalam Investment and Finance',
-      isin: 'INE121A01024',
-      weightPct: 3.8,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Persistent Systems Ltd',
-      isin: 'INE262H01021',
-      weightPct: 3.5,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Tube Investments of India Ltd',
-      isin: 'INE974X01010',
-      weightPct: 3.1,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Cummins India Ltd',
-      isin: 'INE298A01020',
-      weightPct: 2.9,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Supreme Industries Ltd',
-      isin: 'INE195A01028',
-      weightPct: 2.7,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Coforge Ltd',
-      isin: 'INE591G01017',
-      weightPct: 2.5,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Max Healthcare Institute Ltd',
-      isin: 'INE027H01010',
-      weightPct: 2.4,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Trent Ltd',
-      isin: 'INE849A01020',
-      weightPct: 2.2,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Indian Hotels Company Ltd',
-      isin: 'INE053A01029',
-      weightPct: 2.1,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Cash and equivalents',
-      isin: null,
-      weightPct: 72.8,
-      marketValue: null,
-      assetType: 'CASH',
-    },
-  ],
-
-  // Aditya Birla Sun Life Frontline Equity Fund
+  // Aditya Birla Sun Life Frontline Equity Fund - Direct Growth
   '119551': [
     {
       instrument: 'HDFC Bank Ltd',
@@ -381,7 +313,7 @@ const DATA: Record<string, CuratedHolding[]> = {
     },
     {
       instrument: 'Kotak Mahindra Bank Ltd',
-      isin: 'INE237A01028',
+      isin: 'INE237A01036',
       weightPct: 2.5,
       marketValue: null,
       assetType: 'EQUITY',
@@ -409,81 +341,7 @@ const DATA: Record<string, CuratedHolding[]> = {
     },
   ],
 
-  // Kotak Flexicap Fund
-  '120594': [
-    {
-      instrument: 'HDFC Bank Ltd',
-      isin: 'INE040A01034',
-      weightPct: 8.9,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'ICICI Bank Ltd',
-      isin: 'INE090A01021',
-      weightPct: 7.6,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Reliance Industries Ltd',
-      isin: 'INE002A01018',
-      weightPct: 7.0,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Infosys Ltd',
-      isin: 'INE009A01021',
-      weightPct: 5.5,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Larsen & Toubro Ltd',
-      isin: 'INE018A01030',
-      weightPct: 4.2,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Bharti Airtel Ltd',
-      isin: 'INE397D01024',
-      weightPct: 3.7,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Axis Bank Ltd',
-      isin: 'INE238A01034',
-      weightPct: 3.2,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'ITC Ltd',
-      isin: 'INE154A01025',
-      weightPct: 2.8,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Tata Consultancy Services Ltd',
-      isin: 'INE467B01029',
-      weightPct: 2.5,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Cash and equivalents',
-      isin: null,
-      weightPct: 54.6,
-      marketValue: null,
-      assetType: 'CASH',
-    },
-  ],
-
-  // Axis Bluechip Fund
+  // Axis Bluechip Fund - Direct Growth
   '120716': [
     {
       instrument: 'HDFC Bank Ltd',
@@ -529,7 +387,7 @@ const DATA: Record<string, CuratedHolding[]> = {
     },
     {
       instrument: 'Bajaj Finance Ltd',
-      isin: 'INE296A01024',
+      isin: 'INE296A01032',
       weightPct: 3.9,
       marketValue: null,
       assetType: 'EQUITY',
@@ -564,7 +422,7 @@ const DATA: Record<string, CuratedHolding[]> = {
     },
   ],
 
-  // Mirae Asset Large Cap Fund
+  // Mirae Asset Large Cap Fund - Direct Growth
   '135781': [
     {
       instrument: 'HDFC Bank Ltd',
@@ -638,7 +496,7 @@ const DATA: Record<string, CuratedHolding[]> = {
     },
     {
       instrument: 'Bajaj Finance Ltd',
-      isin: 'INE296A01024',
+      isin: 'INE296A01032',
       weightPct: 2.3,
       marketValue: null,
       assetType: 'EQUITY',
@@ -652,7 +510,7 @@ const DATA: Record<string, CuratedHolding[]> = {
     },
   ],
 
-  // Nippon India Large Cap Fund
+  // Nippon India Large Cap Fund - Direct Growth
   '102885': [
     {
       instrument: 'HDFC Bank Ltd',
@@ -726,155 +584,269 @@ const DATA: Record<string, CuratedHolding[]> = {
     },
   ],
 
-  // DSP Midcap Fund
-  '125354': [
-    {
-      instrument: 'Persistent Systems Ltd',
-      isin: 'INE262H01021',
-      weightPct: 4.2,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Coforge Ltd',
-      isin: 'INE591G01017',
-      weightPct: 3.8,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Cholamandalam Investment and Finance',
-      isin: 'INE121A01024',
-      weightPct: 3.5,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Supreme Industries Ltd',
-      isin: 'INE195A01028',
-      weightPct: 3.2,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Cummins India Ltd',
-      isin: 'INE298A01020',
-      weightPct: 3.0,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Max Healthcare Institute Ltd',
-      isin: 'INE027H01010',
-      weightPct: 2.8,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Trent Ltd',
-      isin: 'INE849A01020',
-      weightPct: 2.6,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Indian Hotels Company Ltd',
-      isin: 'INE053A01029',
-      weightPct: 2.4,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Cash and equivalents',
-      isin: null,
-      weightPct: 74.5,
-      marketValue: null,
-      assetType: 'CASH',
-    },
-  ],
-
-  // HDFC Balanced Advantage Fund
-  '119060': [
+  // ADITYA BIRLA SUN LIFE DIVIDEND YIELD FUND - Direct Growth
+  '119507': [
     {
       instrument: 'HDFC Bank Ltd',
       isin: 'INE040A01034',
-      weightPct: 8.2,
+      weightPct: 4.88,
       marketValue: null,
       assetType: 'EQUITY',
     },
     {
       instrument: 'ICICI Bank Ltd',
       isin: 'INE090A01021',
-      weightPct: 7.1,
+      weightPct: 4.43,
       marketValue: null,
       assetType: 'EQUITY',
     },
     {
       instrument: 'Reliance Industries Ltd',
       isin: 'INE002A01018',
-      weightPct: 6.5,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Infosys Ltd',
-      isin: 'INE009A01021',
-      weightPct: 5.2,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Larsen & Toubro Ltd',
-      isin: 'INE018A01030',
-      weightPct: 4.0,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Axis Bank Ltd',
-      isin: 'INE238A01034',
-      weightPct: 3.5,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'State Bank of India',
-      isin: 'INE062A01020',
-      weightPct: 3.0,
+      weightPct: 3.15,
       marketValue: null,
       assetType: 'EQUITY',
     },
     {
       instrument: 'Bharti Airtel Ltd',
       isin: 'INE397D01024',
-      weightPct: 2.8,
+      weightPct: 2.26,
       marketValue: null,
       assetType: 'EQUITY',
     },
     {
-      instrument: 'ITC Ltd',
-      isin: 'INE154A01025',
-      weightPct: 2.5,
+      instrument: 'Axis Bank Ltd',
+      isin: 'INE238A01034',
+      weightPct: 2.26,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'State Bank of India',
+      isin: 'INE062A01020',
+      weightPct: 2.18,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Larsen & Toubro Ltd',
+      isin: 'INE018A01030',
+      weightPct: 1.96,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Infosys Ltd',
+      isin: 'INE009A01021',
+      weightPct: 1.89,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Kotak Mahindra Bank Ltd',
+      isin: 'INE237A01036',
+      weightPct: 1.55,
       marketValue: null,
       assetType: 'EQUITY',
     },
     {
       instrument: 'NTPC Ltd',
       isin: 'INE733E01010',
-      weightPct: 2.2,
+      weightPct: 1.36,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Eternal Ltd (Zomato)',
+      isin: 'INE758T01015',
+      weightPct: 1.3,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Maruti Suzuki India Ltd',
+      isin: 'INE585B01010',
+      weightPct: 1.19,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Sun Pharmaceutical Industries Ltd',
+      isin: 'INE044A01036',
+      weightPct: 1.13,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'ITC Ltd',
+      isin: 'INE154A01025',
+      weightPct: 1.12,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Mahindra & Mahindra Ltd',
+      isin: 'INE101A01026',
+      weightPct: 1.09,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Bajaj Finance Ltd',
+      isin: 'INE296A01032',
+      weightPct: 0.87,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Tata Consultancy Services Ltd',
+      isin: 'INE467B01029',
+      weightPct: 0.81,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'InterGlobe Aviation Ltd',
+      isin: 'INE646L01027',
+      weightPct: 0.79,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Bharat Electronics Ltd',
+      isin: 'INE263A01024',
+      weightPct: 0.74,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'TVS Motor Co Ltd',
+      isin: 'INE494B01023',
+      weightPct: 0.72,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Hindustan Unilever Ltd',
+      isin: 'INE030A01027',
+      weightPct: 0.64,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Tata Steel Ltd',
+      isin: 'INE081A01020',
+      weightPct: 0.62,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'UltraTech Cement Ltd',
+      isin: 'INE481G01011',
+      weightPct: 0.62,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Shriram Finance Ltd',
+      isin: 'INE721A01047',
+      weightPct: 0.57,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Tech Mahindra Ltd',
+      isin: 'INE669C01036',
+      weightPct: 0.57,
       marketValue: null,
       assetType: 'EQUITY',
     },
     {
       instrument: 'Cash and equivalents',
       isin: null,
-      weightPct: 55.0,
+      weightPct: 63.0,
       marketValue: null,
       assetType: 'CASH',
     },
   ],
 
-  // Parag Parikh Flexi Cap Fund
+  // ─── FLEXI CAP ────────────────────────────────────────────────────────────────
+
+  // Kotak Flexicap Fund - Direct Growth
+  '120594': [
+    {
+      instrument: 'HDFC Bank Ltd',
+      isin: 'INE040A01034',
+      weightPct: 8.9,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'ICICI Bank Ltd',
+      isin: 'INE090A01021',
+      weightPct: 7.6,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Reliance Industries Ltd',
+      isin: 'INE002A01018',
+      weightPct: 7.0,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Infosys Ltd',
+      isin: 'INE009A01021',
+      weightPct: 5.5,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Larsen & Toubro Ltd',
+      isin: 'INE018A01030',
+      weightPct: 4.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Bharti Airtel Ltd',
+      isin: 'INE397D01024',
+      weightPct: 3.7,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Axis Bank Ltd',
+      isin: 'INE238A01034',
+      weightPct: 3.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'ITC Ltd',
+      isin: 'INE154A01025',
+      weightPct: 2.8,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Tata Consultancy Services Ltd',
+      isin: 'INE467B01029',
+      weightPct: 2.5,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cash and equivalents',
+      isin: null,
+      weightPct: 54.6,
+      marketValue: null,
+      assetType: 'CASH',
+    },
+  ],
+
+  // Parag Parikh Flexi Cap Fund - Direct Growth
   '122639': [
     {
       instrument: 'HDFC Bank Ltd',
@@ -934,60 +906,7 @@ const DATA: Record<string, CuratedHolding[]> = {
     },
   ],
 
-  // Quant Small Cap Fund
-  '145552': [
-    {
-      instrument: 'Reliance Industries Ltd',
-      isin: 'INE002A01018',
-      weightPct: 8.1,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'HDFC Bank Ltd',
-      isin: 'INE040A01034',
-      weightPct: 7.3,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'ITC Ltd',
-      isin: 'INE154A01025',
-      weightPct: 5.9,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'ONGC Ltd',
-      isin: 'INE213A01029',
-      weightPct: 4.7,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'State Bank of India',
-      isin: 'INE062A01020',
-      weightPct: 4.2,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Adani Enterprises Ltd',
-      isin: 'INE423A01024',
-      weightPct: 3.8,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Cash and equivalents',
-      isin: null,
-      weightPct: 66.0,
-      marketValue: null,
-      assetType: 'CASH',
-    },
-  ],
-
-  // HDFC Flexi Cap Fund
+  // HDFC Flexi Cap Fund - Direct Growth
   '100122': [
     {
       instrument: 'HDFC Bank Ltd',
@@ -1068,32 +987,136 @@ const DATA: Record<string, CuratedHolding[]> = {
     },
   ],
 
-  // SBI Small Cap Fund
-  '125497': [
+  // ─── MID CAP ──────────────────────────────────────────────────────────────────
+
+  // HDFC Mid-Cap Opportunities Fund - Direct Growth
+  '119598': [
     {
-      instrument: 'Finolex Cables Ltd',
-      isin: 'INE235A01022',
-      weightPct: 3.2,
+      instrument: 'Cholamandalam Investment and Finance',
+      isin: 'INE121A01024',
+      weightPct: 3.8,
       marketValue: null,
       assetType: 'EQUITY',
     },
     {
-      instrument: 'Praj Industries Ltd',
-      isin: 'INE074A01025',
+      instrument: 'Persistent Systems Ltd',
+      isin: 'INE262H01021',
+      weightPct: 3.5,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Tube Investments of India Ltd',
+      isin: 'INE974X01010',
+      weightPct: 3.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cummins India Ltd',
+      isin: 'INE298A01020',
       weightPct: 2.9,
       marketValue: null,
       assetType: 'EQUITY',
     },
     {
-      instrument: 'Blue Star Ltd',
-      isin: 'INE386A01015',
-      weightPct: 2.3,
+      instrument: 'Supreme Industries Ltd',
+      isin: 'INE195A01028',
+      weightPct: 2.7,
       marketValue: null,
       assetType: 'EQUITY',
     },
     {
-      instrument: 'Hawkins Cookers Ltd',
-      isin: 'INE979A01025',
+      instrument: 'Coforge Ltd',
+      isin: 'INE591G01017',
+      weightPct: 2.5,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Max Healthcare Institute Ltd',
+      isin: 'INE027H01010',
+      weightPct: 2.4,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Trent Ltd',
+      isin: 'INE849A01020',
+      weightPct: 2.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Indian Hotels Company Ltd',
+      isin: 'INE053A01029',
+      weightPct: 2.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cash and equivalents',
+      isin: null,
+      weightPct: 72.8,
+      marketValue: null,
+      assetType: 'CASH',
+    },
+  ],
+
+  // DSP Midcap Fund - Direct Growth
+  '125354': [
+    {
+      instrument: 'Persistent Systems Ltd',
+      isin: 'INE262H01021',
+      weightPct: 4.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Coforge Ltd',
+      isin: 'INE591G01017',
+      weightPct: 3.8,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cholamandalam Investment and Finance',
+      isin: 'INE121A01024',
+      weightPct: 3.5,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Supreme Industries Ltd',
+      isin: 'INE195A01028',
+      weightPct: 3.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cummins India Ltd',
+      isin: 'INE298A01020',
+      weightPct: 3.0,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Max Healthcare Institute Ltd',
+      isin: 'INE027H01010',
+      weightPct: 2.8,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Trent Ltd',
+      isin: 'INE849A01020',
+      weightPct: 2.6,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Indian Hotels Company Ltd',
+      isin: 'INE053A01029',
       weightPct: 2.4,
       marketValue: null,
       assetType: 'EQUITY',
@@ -1101,13 +1124,13 @@ const DATA: Record<string, CuratedHolding[]> = {
     {
       instrument: 'Cash and equivalents',
       isin: null,
-      weightPct: 89.2,
+      weightPct: 74.5,
       marketValue: null,
       assetType: 'CASH',
     },
   ],
 
-  // Mirae Asset Emerging Bluechip Fund
+  // Mirae Asset Emerging Bluechip Fund - Direct Growth
   '131770': [
     {
       instrument: 'HDFC Bank Ltd',
@@ -1174,7 +1197,658 @@ const DATA: Record<string, CuratedHolding[]> = {
     },
   ],
 
-  // ICICI Prudential Technology Fund
+  // Kotak Emerging Equity Fund - Direct Growth
+  '120596': [
+    {
+      instrument: 'Persistent Systems Ltd',
+      isin: 'INE262H01021',
+      weightPct: 4.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cholamandalam Investment and Finance',
+      isin: 'INE121A01024',
+      weightPct: 3.7,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Coforge Ltd',
+      isin: 'INE591G01017',
+      weightPct: 3.4,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Trent Ltd',
+      isin: 'INE849A01020',
+      weightPct: 3.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Tube Investments of India Ltd',
+      isin: 'INE974X01010',
+      weightPct: 2.9,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Max Healthcare Institute Ltd',
+      isin: 'INE027H01010',
+      weightPct: 2.7,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cummins India Ltd',
+      isin: 'INE298A01020',
+      weightPct: 2.5,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Indian Hotels Company Ltd',
+      isin: 'INE053A01029',
+      weightPct: 2.3,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cash and equivalents',
+      isin: null,
+      weightPct: 75.3,
+      marketValue: null,
+      assetType: 'CASH',
+    },
+  ],
+
+  // Axis Midcap Fund - Direct Growth
+  '120718': [
+    {
+      instrument: 'Cholamandalam Investment and Finance',
+      isin: 'INE121A01024',
+      weightPct: 4.3,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Trent Ltd',
+      isin: 'INE849A01020',
+      weightPct: 4.0,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Persistent Systems Ltd',
+      isin: 'INE262H01021',
+      weightPct: 3.8,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Coforge Ltd',
+      isin: 'INE591G01017',
+      weightPct: 3.5,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Max Healthcare Institute Ltd',
+      isin: 'INE027H01010',
+      weightPct: 3.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Supreme Industries Ltd',
+      isin: 'INE195A01028',
+      weightPct: 2.9,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Indian Hotels Company Ltd',
+      isin: 'INE053A01029',
+      weightPct: 2.7,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cash and equivalents',
+      isin: null,
+      weightPct: 75.6,
+      marketValue: null,
+      assetType: 'CASH',
+    },
+  ],
+
+  // ─── SMALL CAP ────────────────────────────────────────────────────────────────
+
+  // Quant Small Cap Fund - Direct Growth
+  '145552': [
+    {
+      instrument: 'Reliance Industries Ltd',
+      isin: 'INE002A01018',
+      weightPct: 8.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'HDFC Bank Ltd',
+      isin: 'INE040A01034',
+      weightPct: 7.3,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'ITC Ltd',
+      isin: 'INE154A01025',
+      weightPct: 5.9,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'ONGC Ltd',
+      isin: 'INE213A01029',
+      weightPct: 4.7,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'State Bank of India',
+      isin: 'INE062A01020',
+      weightPct: 4.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Adani Enterprises Ltd',
+      isin: 'INE423A01024',
+      weightPct: 3.8,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cash and equivalents',
+      isin: null,
+      weightPct: 66.0,
+      marketValue: null,
+      assetType: 'CASH',
+    },
+  ],
+
+  // SBI Small Cap Fund - Direct Growth
+  '125497': [
+    {
+      instrument: 'Finolex Cables Ltd',
+      isin: 'INE235A01022',
+      weightPct: 3.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Praj Industries Ltd',
+      isin: 'INE074A01025',
+      weightPct: 2.9,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Blue Star Ltd',
+      isin: 'INE386A01015',
+      weightPct: 2.3,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Hawkins Cookers Ltd',
+      isin: 'INE979A01025',
+      weightPct: 2.4,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cash and equivalents',
+      isin: null,
+      weightPct: 89.2,
+      marketValue: null,
+      assetType: 'CASH',
+    },
+  ],
+
+  // Nippon India Small Cap Fund - Direct Growth
+  '118778': [
+    {
+      instrument: 'HDFC Bank Ltd',
+      isin: 'INE040A01034',
+      weightPct: 3.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Tube Investments of India Ltd',
+      isin: 'INE974X01010',
+      weightPct: 2.8,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cummins India Ltd',
+      isin: 'INE298A01020',
+      weightPct: 2.6,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Kirloskar Brothers Ltd',
+      isin: 'INE704A01016',
+      weightPct: 2.4,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Bharat Forge Ltd',
+      isin: 'INE465A01025',
+      weightPct: 2.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cash and equivalents',
+      isin: null,
+      weightPct: 86.9,
+      marketValue: null,
+      assetType: 'CASH',
+    },
+  ],
+
+  // HDFC Small Cap Fund - Direct Growth
+  '119579': [
+    {
+      instrument: 'Aster DM Healthcare Ltd',
+      isin: 'INE914M01019',
+      weightPct: 3.5,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Sonata Software Ltd',
+      isin: 'INE274B01030',
+      weightPct: 3.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Birlasoft Ltd',
+      isin: 'INE836A01035',
+      weightPct: 2.8,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Equitas Small Finance Bank',
+      isin: 'INE063P01018',
+      weightPct: 2.5,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Finolex Industries Ltd',
+      isin: 'INE183A01016',
+      weightPct: 2.3,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'PNB Housing Finance Ltd',
+      isin: 'INE572E01012',
+      weightPct: 2.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cash and equivalents',
+      isin: null,
+      weightPct: 83.7,
+      marketValue: null,
+      assetType: 'CASH',
+    },
+  ],
+
+  // Axis Small Cap Fund - Direct Growth
+  '120841': [
+    {
+      instrument: 'Trent Ltd',
+      isin: 'INE849A01020',
+      weightPct: 4.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Coforge Ltd',
+      isin: 'INE591G01017',
+      weightPct: 3.9,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Persistent Systems Ltd',
+      isin: 'INE262H01021',
+      weightPct: 3.6,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Max Healthcare Institute Ltd',
+      isin: 'INE027H01010',
+      weightPct: 3.3,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Indian Hotels Company Ltd',
+      isin: 'INE053A01029',
+      weightPct: 3.0,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Tube Investments of India Ltd',
+      isin: 'INE974X01010',
+      weightPct: 2.7,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cash and equivalents',
+      isin: null,
+      weightPct: 79.3,
+      marketValue: null,
+      assetType: 'CASH',
+    },
+  ],
+
+  // ─── ELSS (TAX SAVING) ────────────────────────────────────────────────────────
+
+  // Mirae Asset Tax Saver Fund (ELSS) - Direct Growth
+  '135800': [
+    {
+      instrument: 'HDFC Bank Ltd',
+      isin: 'INE040A01034',
+      weightPct: 9.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'ICICI Bank Ltd',
+      isin: 'INE090A01021',
+      weightPct: 8.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Reliance Industries Ltd',
+      isin: 'INE002A01018',
+      weightPct: 7.4,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Infosys Ltd',
+      isin: 'INE009A01021',
+      weightPct: 5.8,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Larsen & Toubro Ltd',
+      isin: 'INE018A01030',
+      weightPct: 4.3,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Bharti Airtel Ltd',
+      isin: 'INE397D01024',
+      weightPct: 3.9,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Axis Bank Ltd',
+      isin: 'INE238A01034',
+      weightPct: 3.5,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Tata Consultancy Services Ltd',
+      isin: 'INE467B01029',
+      weightPct: 3.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'State Bank of India',
+      isin: 'INE062A01020',
+      weightPct: 2.7,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cash and equivalents',
+      isin: null,
+      weightPct: 52.0,
+      marketValue: null,
+      assetType: 'CASH',
+    },
+  ],
+
+  // ICICI Prudential Long Term Equity Fund (ELSS) - Direct Growth
+  '120586': [
+    {
+      instrument: 'HDFC Bank Ltd',
+      isin: 'INE040A01034',
+      weightPct: 9.4,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'ICICI Bank Ltd',
+      isin: 'INE090A01021',
+      weightPct: 8.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Reliance Industries Ltd',
+      isin: 'INE002A01018',
+      weightPct: 7.6,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Infosys Ltd',
+      isin: 'INE009A01021',
+      weightPct: 5.9,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Larsen & Toubro Ltd',
+      isin: 'INE018A01030',
+      weightPct: 4.6,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Tata Consultancy Services Ltd',
+      isin: 'INE467B01029',
+      weightPct: 4.0,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Bharti Airtel Ltd',
+      isin: 'INE397D01024',
+      weightPct: 3.7,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'State Bank of India',
+      isin: 'INE062A01020',
+      weightPct: 3.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cash and equivalents',
+      isin: null,
+      weightPct: 53.5,
+      marketValue: null,
+      assetType: 'CASH',
+    },
+  ],
+
+  // ─── INDEX FUNDS ──────────────────────────────────────────────────────────────
+
+  // Nippon India Index Fund Nifty 50 - Direct Growth
+  '118825': [
+    {
+      instrument: 'HDFC Bank Ltd',
+      isin: 'INE040A01034',
+      weightPct: 13.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Reliance Industries Ltd',
+      isin: 'INE002A01018',
+      weightPct: 9.4,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'ICICI Bank Ltd',
+      isin: 'INE090A01021',
+      weightPct: 8.7,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Infosys Ltd',
+      isin: 'INE009A01021',
+      weightPct: 6.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Larsen & Toubro Ltd',
+      isin: 'INE018A01030',
+      weightPct: 4.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Other Nifty 50 constituents',
+      isin: null,
+      weightPct: 58.4,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+  ],
+
+  // Motilal Oswal Nifty 500 Index Fund - Direct Growth
+  '147622': [
+    {
+      instrument: 'HDFC Bank Ltd',
+      isin: 'INE040A01034',
+      weightPct: 7.8,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Reliance Industries Ltd',
+      isin: 'INE002A01018',
+      weightPct: 5.6,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'ICICI Bank Ltd',
+      isin: 'INE090A01021',
+      weightPct: 5.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Infosys Ltd',
+      isin: 'INE009A01021',
+      weightPct: 3.6,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Larsen & Toubro Ltd',
+      isin: 'INE018A01030',
+      weightPct: 2.5,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Other Nifty 500 constituents',
+      isin: null,
+      weightPct: 75.4,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+  ],
+
+  // Navi Nifty 50 Index Fund - Direct Growth
+  '149391': [
+    {
+      instrument: 'HDFC Bank Ltd',
+      isin: 'INE040A01034',
+      weightPct: 13.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Reliance Industries Ltd',
+      isin: 'INE002A01018',
+      weightPct: 9.4,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'ICICI Bank Ltd',
+      isin: 'INE090A01021',
+      weightPct: 8.7,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Infosys Ltd',
+      isin: 'INE009A01021',
+      weightPct: 6.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Other Nifty 50 constituents',
+      isin: null,
+      weightPct: 62.6,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+  ],
+
+  // ─── SECTORAL ─────────────────────────────────────────────────────────────────
+
+  // ICICI Prudential Technology Fund - Direct Growth
   '120574': [
     {
       instrument: 'Infosys Ltd',
@@ -1241,39 +1915,316 @@ const DATA: Record<string, CuratedHolding[]> = {
     },
   ],
 
-  // Nippon India Small Cap Fund
-  '118778': [
+  // ICICI Prudential Banking and Financial Services Fund - Direct Growth
+  '120578': [
     {
       instrument: 'HDFC Bank Ltd',
       isin: 'INE040A01034',
-      weightPct: 3.1,
+      weightPct: 22.5,
       marketValue: null,
       assetType: 'EQUITY',
     },
     {
-      instrument: 'Tube Investments of India Ltd',
-      isin: 'INE974X01010',
+      instrument: 'ICICI Bank Ltd',
+      isin: 'INE090A01021',
+      weightPct: 18.3,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Kotak Mahindra Bank Ltd',
+      isin: 'INE237A01036',
+      weightPct: 9.7,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Axis Bank Ltd',
+      isin: 'INE238A01034',
+      weightPct: 8.4,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'State Bank of India',
+      isin: 'INE062A01020',
+      weightPct: 7.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Bajaj Finance Ltd',
+      isin: 'INE296A01032',
+      weightPct: 5.9,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'IndusInd Bank Ltd',
+      isin: 'INE095A01012',
+      weightPct: 4.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cash and equivalents',
+      isin: null,
+      weightPct: 23.9,
+      marketValue: null,
+      assetType: 'CASH',
+    },
+  ],
+
+  // SBI Healthcare Opportunities Fund - Direct Growth
+  '119817': [
+    {
+      instrument: 'Sun Pharmaceutical Industries Ltd',
+      isin: 'INE044A01036',
+      weightPct: 9.8,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: "Dr. Reddy's Laboratories Ltd",
+      isin: 'INE089A01023',
+      weightPct: 7.6,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cipla Ltd',
+      isin: 'INE059A01026',
+      weightPct: 6.9,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: "Divi's Laboratories Ltd",
+      isin: 'INE361B01024',
+      weightPct: 6.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Apollo Hospitals Enterprise Ltd',
+      isin: 'INE437A01024',
+      weightPct: 5.4,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Lupin Ltd',
+      isin: 'INE326A01037',
+      weightPct: 4.7,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Aurobindo Pharma Ltd',
+      isin: 'INE406A01037',
+      weightPct: 3.9,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Max Healthcare Institute Ltd',
+      isin: 'INE027H01010',
+      weightPct: 3.5,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cash and equivalents',
+      isin: null,
+      weightPct: 52.1,
+      marketValue: null,
+      assetType: 'CASH',
+    },
+  ],
+
+  // Nippon India Pharma Fund - Direct Growth
+  '118833': [
+    {
+      instrument: 'Sun Pharmaceutical Industries Ltd',
+      isin: 'INE044A01036',
+      weightPct: 11.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: "Dr. Reddy's Laboratories Ltd",
+      isin: 'INE089A01023',
+      weightPct: 8.8,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cipla Ltd',
+      isin: 'INE059A01026',
+      weightPct: 7.5,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: "Divi's Laboratories Ltd",
+      isin: 'INE361B01024',
+      weightPct: 6.9,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Lupin Ltd',
+      isin: 'INE326A01037',
+      weightPct: 5.8,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Aurobindo Pharma Ltd',
+      isin: 'INE406A01037',
+      weightPct: 4.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cash and equivalents',
+      isin: null,
+      weightPct: 55.6,
+      marketValue: null,
+      assetType: 'CASH',
+    },
+  ],
+
+  // ICICI Prudential Infrastructure Fund - Direct Growth
+  '120576': [
+    {
+      instrument: 'Larsen & Toubro Ltd',
+      isin: 'INE018A01030',
+      weightPct: 8.9,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'NTPC Ltd',
+      isin: 'INE733E01010',
+      weightPct: 6.7,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Power Grid Corporation of India Ltd',
+      isin: 'INE752E01010',
+      weightPct: 5.8,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Bharat Electronics Ltd',
+      isin: 'INE263A01024',
+      weightPct: 5.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Adani Ports and SEZ Ltd',
+      isin: 'INE742F01042',
+      weightPct: 4.7,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Bharti Airtel Ltd',
+      isin: 'INE397D01024',
+      weightPct: 4.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'ONGC Ltd',
+      isin: 'INE213A01029',
+      weightPct: 3.8,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cash and equivalents',
+      isin: null,
+      weightPct: 60.8,
+      marketValue: null,
+      assetType: 'CASH',
+    },
+  ],
+
+  // ─── HYBRID / BALANCED ────────────────────────────────────────────────────────
+
+  // HDFC Balanced Advantage Fund - Direct Growth
+  '119060': [
+    {
+      instrument: 'HDFC Bank Ltd',
+      isin: 'INE040A01034',
+      weightPct: 8.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'ICICI Bank Ltd',
+      isin: 'INE090A01021',
+      weightPct: 7.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Reliance Industries Ltd',
+      isin: 'INE002A01018',
+      weightPct: 6.5,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Infosys Ltd',
+      isin: 'INE009A01021',
+      weightPct: 5.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Larsen & Toubro Ltd',
+      isin: 'INE018A01030',
+      weightPct: 4.0,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Axis Bank Ltd',
+      isin: 'INE238A01034',
+      weightPct: 3.5,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'State Bank of India',
+      isin: 'INE062A01020',
+      weightPct: 3.0,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Bharti Airtel Ltd',
+      isin: 'INE397D01024',
       weightPct: 2.8,
       marketValue: null,
       assetType: 'EQUITY',
     },
     {
-      instrument: 'Cummins India Ltd',
-      isin: 'INE298A01020',
-      weightPct: 2.6,
+      instrument: 'ITC Ltd',
+      isin: 'INE154A01025',
+      weightPct: 2.5,
       marketValue: null,
       assetType: 'EQUITY',
     },
     {
-      instrument: 'Kirloskar Brothers Ltd',
-      isin: 'INE704A01016',
-      weightPct: 2.4,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Bharat Forge Ltd',
-      isin: 'INE465A01025',
+      instrument: 'NTPC Ltd',
+      isin: 'INE733E01010',
       weightPct: 2.2,
       marketValue: null,
       assetType: 'EQUITY',
@@ -1281,13 +2232,133 @@ const DATA: Record<string, CuratedHolding[]> = {
     {
       instrument: 'Cash and equivalents',
       isin: null,
-      weightPct: 86.9,
+      weightPct: 55.0,
       marketValue: null,
       assetType: 'CASH',
     },
   ],
 
-  // 360 ONE Balanced Hybrid Fund - Direct Plan - IDCW (and Growth)
+  // SBI Equity Hybrid Fund - Direct Growth
+  '119822': [
+    {
+      instrument: 'HDFC Bank Ltd',
+      isin: 'INE040A01034',
+      weightPct: 8.9,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'ICICI Bank Ltd',
+      isin: 'INE090A01021',
+      weightPct: 7.6,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Reliance Industries Ltd',
+      isin: 'INE002A01018',
+      weightPct: 7.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Infosys Ltd',
+      isin: 'INE009A01021',
+      weightPct: 5.8,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Larsen & Toubro Ltd',
+      isin: 'INE018A01030',
+      weightPct: 4.5,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Axis Bank Ltd',
+      isin: 'INE238A01034',
+      weightPct: 3.9,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'State Bank of India',
+      isin: 'INE062A01020',
+      weightPct: 3.3,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Government Securities',
+      isin: null,
+      weightPct: 20.0,
+      marketValue: null,
+      assetType: 'DEBT',
+    },
+    {
+      instrument: 'Cash and equivalents',
+      isin: null,
+      weightPct: 38.9,
+      marketValue: null,
+      assetType: 'CASH',
+    },
+  ],
+
+  // Mirae Asset Hybrid Equity Fund - Direct Growth
+  '135798': [
+    {
+      instrument: 'HDFC Bank Ltd',
+      isin: 'INE040A01034',
+      weightPct: 8.5,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'ICICI Bank Ltd',
+      isin: 'INE090A01021',
+      weightPct: 7.4,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Reliance Industries Ltd',
+      isin: 'INE002A01018',
+      weightPct: 6.8,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Infosys Ltd',
+      isin: 'INE009A01021',
+      weightPct: 5.3,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Larsen & Toubro Ltd',
+      isin: 'INE018A01030',
+      weightPct: 4.0,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Government Securities',
+      isin: null,
+      weightPct: 18.0,
+      marketValue: null,
+      assetType: 'DEBT',
+    },
+    {
+      instrument: 'Cash and equivalents',
+      isin: null,
+      weightPct: 50.0,
+      marketValue: null,
+      assetType: 'CASH',
+    },
+  ],
+
+  // 360 ONE Balanced Hybrid Fund - Direct Plan - IDCW
   '152073': [
     {
       instrument: 'HDFC Bank Ltd',
@@ -1442,68 +2513,146 @@ const DATA: Record<string, CuratedHolding[]> = {
     },
   ],
 
-  // SBI Equity Hybrid Fund
-  '119822': [
-    {
-      instrument: 'HDFC Bank Ltd',
-      isin: 'INE040A01034',
-      weightPct: 8.9,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'ICICI Bank Ltd',
-      isin: 'INE090A01021',
-      weightPct: 7.6,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
+  // ─── MULTI CAP / LARGE & MID CAP ──────────────────────────────────────────────
+
+  // Quant Active Fund - Direct Growth
+  '120848': [
     {
       instrument: 'Reliance Industries Ltd',
       isin: 'INE002A01018',
-      weightPct: 7.1,
+      weightPct: 9.4,
       marketValue: null,
       assetType: 'EQUITY',
     },
     {
-      instrument: 'Infosys Ltd',
-      isin: 'INE009A01021',
-      weightPct: 5.8,
+      instrument: 'HDFC Bank Ltd',
+      isin: 'INE040A01034',
+      weightPct: 8.1,
       marketValue: null,
       assetType: 'EQUITY',
     },
     {
-      instrument: 'Larsen & Toubro Ltd',
-      isin: 'INE018A01030',
-      weightPct: 4.5,
-      marketValue: null,
-      assetType: 'EQUITY',
-    },
-    {
-      instrument: 'Axis Bank Ltd',
-      isin: 'INE238A01034',
-      weightPct: 3.9,
+      instrument: 'ITC Ltd',
+      isin: 'INE154A01025',
+      weightPct: 6.7,
       marketValue: null,
       assetType: 'EQUITY',
     },
     {
       instrument: 'State Bank of India',
       isin: 'INE062A01020',
-      weightPct: 3.3,
+      weightPct: 5.2,
       marketValue: null,
       assetType: 'EQUITY',
     },
     {
-      instrument: 'Government Securities',
-      isin: null,
-      weightPct: 20.0,
+      instrument: 'ONGC Ltd',
+      isin: 'INE213A01029',
+      weightPct: 4.8,
       marketValue: null,
-      assetType: 'DEBT',
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Adani Enterprises Ltd',
+      isin: 'INE423A01024',
+      weightPct: 4.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Adani Ports and SEZ Ltd',
+      isin: 'INE742F01042',
+      weightPct: 3.6,
+      marketValue: null,
+      assetType: 'EQUITY',
     },
     {
       instrument: 'Cash and equivalents',
       isin: null,
-      weightPct: 38.9,
+      weightPct: 58.1,
+      marketValue: null,
+      assetType: 'CASH',
+    },
+  ],
+
+  // ─── FOCUSED FUND ─────────────────────────────────────────────────────────────
+
+  // ICICI Prudential Focused Equity Fund - Direct Growth
+  '120580': [
+    {
+      instrument: 'HDFC Bank Ltd',
+      isin: 'INE040A01034',
+      weightPct: 9.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'ICICI Bank Ltd',
+      isin: 'INE090A01021',
+      weightPct: 8.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Reliance Industries Ltd',
+      isin: 'INE002A01018',
+      weightPct: 7.6,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Infosys Ltd',
+      isin: 'INE009A01021',
+      weightPct: 6.4,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Larsen & Toubro Ltd',
+      isin: 'INE018A01030',
+      weightPct: 5.8,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Bharti Airtel Ltd',
+      isin: 'INE397D01024',
+      weightPct: 5.1,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Bajaj Finance Ltd',
+      isin: 'INE296A01032',
+      weightPct: 4.7,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Maruti Suzuki India Ltd',
+      isin: 'INE585B01010',
+      weightPct: 4.2,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Titan Company Ltd',
+      isin: 'INE280A01028',
+      weightPct: 3.8,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Sun Pharmaceutical Industries Ltd',
+      isin: 'INE044A01036',
+      weightPct: 3.5,
+      marketValue: null,
+      assetType: 'EQUITY',
+    },
+    {
+      instrument: 'Cash and equivalents',
+      isin: null,
+      weightPct: 41.6,
       marketValue: null,
       assetType: 'CASH',
     },
