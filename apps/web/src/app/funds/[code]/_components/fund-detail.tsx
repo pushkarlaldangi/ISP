@@ -170,7 +170,7 @@ export function FundDetail({
                     : 'Holdings not yet available for this fund.'}
               </p>
             </div>
-            {!loading && !error && holdings.length > 0 && (
+            {!loading && (
               <Button
                 variant="outline"
                 size="sm"
@@ -178,7 +178,7 @@ export function FundDetail({
                 className="gap-1.5"
               >
                 <RefreshCw className="h-3.5 w-3.5" />
-                Refresh prices
+                {holdings.length > 0 ? 'Refresh prices' : 'Retry'}
               </Button>
             )}
           </div>

@@ -4,20 +4,23 @@
  * Returns the latest portfolio holdings for a fund, enriched with live
  * stock prices and 1-day change %.
  *
- * Flow:
- *   1. Check DB for existing holdings for this scheme code.
- *   2. If none found, try fetching from AMFI PortfolioHoldingsdata and
- *      persist them so the next request is fast.
- *   3. Fetch live quotes (Yahoo Finance) for all equity tickers found.
- *   4. Return holdings enriched with { livePrice, prevClose, changePct }.
+ * Resolution order:
+ *   1. DB holdings (seeded via admin/seed-holdings or previously fetched)
+ *   2. AMFI PortfolioHoldingsdata live fetch (if Vercel can reach it)
+ *   3. Curated fallback (hardcoded data for the ~15 most popular funds)
+ *   4. Empty — returns { holdings: [], source: 'none' }
  *
- * Cache: s-maxage=60, stale-while-revalidate=120 (quotes change slowly).
+ * After resolving holdings, equity tickers get live Yahoo Finance quotes
+ * (60s Redis cache + in-process LRU fallback).
+ *
+ * Cache: s-maxage=60, stale-while-revalidate=120
  */
 
 import { NextResponse, type NextRequest } from 'next/server';
 import { desc, eq } from 'drizzle-orm';
 
 import { getDb, schema } from '@isp/db';
+import { getCuratedHoldings } from '@/lib/curated-holdings';
 import { getLiveQuotes } from '@/lib/quotes';
 
 export const runtime = 'nodejs';
@@ -76,21 +79,19 @@ const TICKER_MAP: Record<string, string> = {
   Trent: 'TRENT',
   'Indian Hotels': 'INDHOTEL',
   'Brigade Enterprises': 'BRIGADE',
-  'Muthoot Finance': 'MUTHOOTFIN',
-  'Torrent Pharmaceuticals': 'TORNTPHARM',
-  'Godrej Consumer Products': 'GODREJCP',
-  'Pidilite Industries': 'PIDILITIND',
+  'Bajaj Holdings': 'BAJAJHLDNG',
+  'Coal India': 'COALINDIA',
+  Zomato: 'ZOMATO',
+  'Jio Financial': 'JIOFIN',
+  'Finolex Cables': 'FINEOTEX',
+  'Blue Star': 'BLUESTARCO',
+  'Praj Industries': 'PRAJIND',
   'Havells India': 'HAVELLS',
-  "Divi's Laboratories": 'DIVISLAB',
-  'Berger Paints': 'BERGEPAINT',
-  'Page Industries': 'PAGEIND',
-  'Abbott India': 'ABBOTINDIA',
+  'Pidilite Industries': 'PIDILITIND',
 };
 
-/** Resolve a ticker for a holding instrument name. */
 function resolveTicker(instrument: string, existingTicker: string | null): string | null {
   if (existingTicker) return existingTicker;
-  // Try prefix match against our map
   for (const [name, ticker] of Object.entries(TICKER_MAP)) {
     if (instrument.toLowerCase().includes(name.toLowerCase())) return ticker;
   }
@@ -111,14 +112,17 @@ async function fetchAmfiHoldings(schemeCode: string): Promise<ParsedHolding[] | 
     const url = `https://www.amfiindia.com/modules/PortfolioHoldingsdata?SchemeCode=${schemeCode}`;
     const res = await fetch(url, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; isp-tracker/1.0)',
-        Accept: 'text/html,application/xhtml+xml,*/*;q=0.8',
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'en-IN,en-US;q=0.9',
+        Referer: 'https://www.amfiindia.com/',
       },
       signal: AbortSignal.timeout(12000),
     });
     if (!res.ok) return null;
     const html = await res.text();
-    if (!html || html.length < 100) return null;
+    if (!html || html.length < 200) return null;
 
     const holdings: ParsedHolding[] = [];
     const rowRegex = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
@@ -205,11 +209,16 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ cod
     .where(eq(schema.holdings.schemeCode, code))
     .orderBy(desc(schema.holdings.weightPct));
 
-  // 2. If empty, try fetching from AMFI and persisting
+  let source = 'db';
+
+  // 2. If DB is empty, try sources in order: AMFI live → curated fallback
   if (dbHoldings.length === 0) {
+    // 2a. Try AMFI live fetch
     const fetched = await fetchAmfiHoldings(code);
+
     if (fetched && fetched.length > 0) {
-      const asOfDate = new Date().toISOString().slice(0, 7) + '-01'; // first of current month
+      // Persist to DB for fast future reads
+      const asOfDate = new Date().toISOString().slice(0, 7) + '-01';
       const rows = fetched.map((h) => ({
         schemeCode: code,
         asOfDate,
@@ -221,7 +230,6 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ cod
         marketValue: h.marketValue?.toFixed(2) ?? null,
         quantity: null,
       }));
-
       try {
         await db
           .insert(schema.holdings)
@@ -233,33 +241,76 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ cod
               schema.holdings.instrument,
             ],
           });
-
-        // Re-fetch what we just inserted
         dbHoldings = await db
           .select()
           .from(schema.holdings)
           .where(eq(schema.holdings.schemeCode, code))
           .orderBy(desc(schema.holdings.weightPct));
+        source = 'amfi-live';
       } catch {
-        // If persist fails, still return what we fetched in-memory
-        const resp = fetched.map((h, idx) => ({
-          id: idx,
+        // Persist failed — return in-memory results directly
+        return buildResponse(
+          fetched.map((h, idx) => ({
+            id: idx,
+            instrument: h.instrument,
+            ticker: resolveTicker(h.instrument, null),
+            isin: h.isin,
+            assetType: h.assetType,
+            weightPct: h.weightPct,
+            marketValue: h.marketValue,
+          })),
+          null,
+          'amfi-live',
+        );
+      }
+    } else {
+      // 2b. Curated fallback (hardcoded data for top funds)
+      const curated = getCuratedHoldings(code);
+      if (curated.length > 0) {
+        const asOfDate = '2026-04-30'; // last known disclosure date for curated data
+        const rows = curated.map((h) => ({
+          schemeCode: code,
+          asOfDate,
           instrument: h.instrument,
           ticker: resolveTicker(h.instrument, null),
           isin: h.isin,
           assetType: h.assetType,
-          weightPct: h.weightPct,
-          marketValue: h.marketValue,
-          livePrice: null,
-          prevClose: null,
-          changePct: null,
+          weightPct: h.weightPct.toFixed(4),
+          marketValue: h.marketValue?.toFixed(2) ?? null,
+          quantity: null,
         }));
-        return NextResponse.json(
-          { holdings: resp, asOf: null, source: 'amfi-live' },
-          {
-            headers: { 'Cache-Control': 's-maxage=60, stale-while-revalidate=120' },
-          },
-        );
+        try {
+          await db
+            .insert(schema.holdings)
+            .values(rows)
+            .onConflictDoNothing({
+              target: [
+                schema.holdings.schemeCode,
+                schema.holdings.asOfDate,
+                schema.holdings.instrument,
+              ],
+            });
+          dbHoldings = await db
+            .select()
+            .from(schema.holdings)
+            .where(eq(schema.holdings.schemeCode, code))
+            .orderBy(desc(schema.holdings.weightPct));
+          source = 'curated';
+        } catch {
+          return buildResponse(
+            curated.map((h, idx) => ({
+              id: idx,
+              instrument: h.instrument,
+              ticker: resolveTicker(h.instrument, null),
+              isin: h.isin,
+              assetType: h.assetType,
+              weightPct: h.weightPct,
+              marketValue: h.marketValue,
+            })),
+            '2026-04-30',
+            'curated',
+          );
+        }
       }
     }
   }
@@ -269,12 +320,9 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ cod
   }
 
   // 3. Collect equity tickers for live quote fetch
-  const equityHoldings = dbHoldings.filter((h) => h.assetType === 'EQUITY');
-  const tickersNeeded = equityHoldings
-    .map((h) => {
-      const ticker = resolveTicker(h.instrument, h.ticker);
-      return ticker;
-    })
+  const tickersNeeded = dbHoldings
+    .filter((h) => h.assetType === 'EQUITY')
+    .map((h) => resolveTicker(h.instrument, h.ticker))
     .filter((t): t is string => t !== null);
 
   // 4. Fetch live quotes (batched, cached 60s)
@@ -283,7 +331,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ cod
     try {
       quotes = await getLiveQuotes(tickersNeeded);
     } catch {
-      // quotes remain empty — we'll still return holdings without live prices
+      // quotes remain empty — holdings still returned without live prices
     }
   }
 
@@ -293,7 +341,6 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ cod
     const ticker = resolveTicker(h.instrument, h.ticker);
     const q = ticker ? quotes[ticker] : undefined;
     const changePct = q && q.prevClose !== 0 ? ((q.price - q.prevClose) / q.prevClose) * 100 : null;
-
     return {
       id: h.id,
       instrument: h.instrument,
@@ -309,7 +356,47 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ cod
   });
 
   return NextResponse.json(
-    { holdings, asOf, source: 'db' },
+    { holdings, asOf, source },
+    { headers: { 'Cache-Control': 's-maxage=60, stale-while-revalidate=120' } },
+  );
+}
+
+// ─── Helper ───────────────────────────────────────────────────────────────────
+async function buildResponse(
+  rows: Array<{
+    id: number;
+    instrument: string;
+    ticker: string | null;
+    isin: string | null;
+    assetType: string;
+    weightPct: number | null;
+    marketValue: number | null;
+  }>,
+  asOf: string | null,
+  source: string,
+) {
+  const equityTickers = rows
+    .filter((r) => r.assetType === 'EQUITY')
+    .map((r) => r.ticker)
+    .filter((t): t is string => t !== null);
+
+  let quotes: Record<string, { price: number; prevClose: number; ts: Date }> = {};
+  if (equityTickers.length > 0) {
+    try {
+      quotes = await getLiveQuotes(equityTickers);
+    } catch {
+      /* ignore */
+    }
+  }
+
+  const holdings = rows.map((h) => {
+    const q = h.ticker ? quotes[h.ticker] : undefined;
+    const changePct = q && q.prevClose !== 0 ? ((q.price - q.prevClose) / q.prevClose) * 100 : null;
+    return { ...h, livePrice: q?.price ?? null, prevClose: q?.prevClose ?? null, changePct };
+  });
+
+  return NextResponse.json(
+    { holdings, asOf, source },
     { headers: { 'Cache-Control': 's-maxage=60, stale-while-revalidate=120' } },
   );
 }
