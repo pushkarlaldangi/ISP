@@ -198,7 +198,7 @@ export function FundDetail({
               </CardContent>
             </Card>
           ) : holdings.length === 0 ? (
-            <EmptyHoldings onRetry={() => void refresh()} />
+            <EmptyHoldings onRetry={() => void refresh()} schemeCode={fund.schemeCode} />
           ) : (
             <HoldingsTable rows={holdings} />
           )}
