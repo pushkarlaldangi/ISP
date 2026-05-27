@@ -75,6 +75,7 @@ export default async function PortfolioPage({ params }: Props) {
       portfolio={portfolio}
       summary={{ ...summary, positions: enrichedPositions }}
       transactions={txns}
+      fundNames={fundsData.map((f) => ({ schemeCode: f.schemeCode, schemeName: f.schemeName }))}
     />
   );
 }

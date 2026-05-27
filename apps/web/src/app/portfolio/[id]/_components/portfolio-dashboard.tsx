@@ -55,10 +55,16 @@ interface Portfolio {
   createdAt: Date | string;
 }
 
+interface FundMeta {
+  schemeCode: string;
+  schemeName: string;
+}
+
 interface Props {
   portfolio: Portfolio;
   summary: EnrichedSummary;
   transactions: Transaction[];
+  fundNames: FundMeta[];
 }
 
 const CONFIDENCE_LABEL: Record<string, string> = {
@@ -73,7 +79,8 @@ const CONFIDENCE_COLOR: Record<string, string> = {
   low: 'text-red-600 dark:text-red-400',
 };
 
-export function PortfolioDashboard({ portfolio, summary, transactions }: Props) {
+export function PortfolioDashboard({ portfolio, summary, transactions, fundNames }: Props) {
+  const fundNameMap = Object.fromEntries(fundNames.map((f) => [f.schemeCode, f.schemeName]));
   const [activeTab, setActiveTab] = useState<'holdings' | 'allocation' | 'transactions'>(
     'holdings',
   );
@@ -166,6 +173,7 @@ export function PortfolioDashboard({ portfolio, summary, transactions }: Props) 
             <TransactionsTab
               transactions={transactions}
               portfolioId={portfolio.id}
+              fundNameMap={fundNameMap}
               onMutate={() => router.refresh()}
             />
           )}
@@ -375,10 +383,12 @@ function AllocationTab({
 function TransactionsTab({
   transactions,
   portfolioId,
+  fundNameMap,
   onMutate,
 }: {
   transactions: Transaction[];
   portfolioId: string;
+  fundNameMap: Record<string, string>;
   onMutate: () => void;
 }) {
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -438,12 +448,14 @@ function TransactionsTab({
               <td className="px-4 py-3 font-mono tabular-nums">
                 {new Date(t.txnDate).toLocaleDateString('en-IN')}
               </td>
-              <td className="max-w-[180px] px-4 py-3">
+              <td className="max-w-[200px] px-4 py-3">
                 <Link
                   href={`/funds/${t.schemeCode}`}
                   className="hover:text-primary hover:underline"
                 >
-                  {t.schemeCode}
+                  <span className="line-clamp-2 text-sm font-medium">
+                    {fundNameMap[t.schemeCode] ?? t.schemeCode}
+                  </span>
                 </Link>
               </td>
               <td className="px-4 py-3">

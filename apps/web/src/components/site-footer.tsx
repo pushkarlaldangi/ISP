@@ -20,6 +20,12 @@ export function SiteFooter() {
             &copy; {new Date().getFullYear()} ISP &middot; Data from AMFI, MFAPI &amp; Yahoo Finance
           </span>
           <Link
+            href="/help"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Help &amp; FAQ
+          </Link>
+          <Link
             href="/terms"
             className="text-muted-foreground hover:text-foreground transition-colors"
           >
