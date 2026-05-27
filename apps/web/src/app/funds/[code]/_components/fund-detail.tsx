@@ -7,6 +7,7 @@ import Link from 'next/link';
 
 import { FundCategoryBadge } from '@/components/funds/fund-category-badge';
 import { LiveNavWidget } from '@/components/funds/live-nav-widget';
+import { WatchlistButton } from '@/components/funds/watchlist-button';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -41,11 +42,15 @@ export function FundDetail({
   history,
   holdings,
   holdingsAsOf,
+  signedIn = false,
+  isWatched = false,
 }: {
   fund: FundRow;
   history: { date: string; nav: number }[];
   holdings: HoldingRow[];
   holdingsAsOf: string | null;
+  signedIn?: boolean;
+  isWatched?: boolean;
 }) {
   // Day return: latest two NAV points.
   const last = history[history.length - 1]?.nav ?? fund.latestNav ?? null;
@@ -56,12 +61,17 @@ export function FundDetail({
 
   return (
     <div className="space-y-8">
-      <div>
+      <div className="flex items-center justify-between">
         <Button asChild variant="ghost" size="sm" className="-ml-2">
           <Link href="/funds">
             <ArrowLeft className="mr-1 h-4 w-4" /> All funds
           </Link>
         </Button>
+        <WatchlistButton
+          schemeCode={fund.schemeCode}
+          initialWatched={isWatched}
+          signedIn={signedIn}
+        />
       </div>
 
       <header className="space-y-3">

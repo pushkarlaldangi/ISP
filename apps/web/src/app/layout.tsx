@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 
+import { MarketStatusBar } from '@/components/market-status-bar';
+import { MobileNav } from '@/components/mobile-nav';
 import { QueryProvider } from '@/components/query-provider';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
@@ -35,7 +37,8 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="flex min-h-screen flex-col font-sans">
+      {/* pb-16 reserves space for the mobile bottom nav bar */}
+      <body className="flex min-h-screen flex-col pb-16 font-sans md:pb-0">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -43,9 +46,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           disableTransitionOnChange
         >
           <QueryProvider>
+            <MarketStatusBar />
             <SiteHeader />
             <div className="flex-1">{children}</div>
             <SiteFooter />
+            <MobileNav />
           </QueryProvider>
         </ThemeProvider>
       </body>

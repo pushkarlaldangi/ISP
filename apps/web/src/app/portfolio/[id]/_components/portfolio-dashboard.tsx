@@ -3,7 +3,20 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import dynamic from 'next/dynamic';
+
+// Dynamically import the heavy allocation chart so it doesn't bloat the initial bundle
+const AllocationChartDynamic = dynamic(
+  () => import('./allocation-chart').then((m) => m.AllocationChart),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="text-muted-foreground flex h-[280px] items-center justify-center text-sm">
+        Loading chart…
+      </div>
+    ),
+  },
+);
 
 import type { PortfolioSummary, Transaction } from '@isp/core/types';
 
@@ -47,19 +60,6 @@ interface Props {
   summary: EnrichedSummary;
   transactions: Transaction[];
 }
-
-const CHART_COLORS = [
-  '#6366f1',
-  '#8b5cf6',
-  '#ec4899',
-  '#f43f5e',
-  '#f97316',
-  '#eab308',
-  '#22c55e',
-  '#14b8a6',
-  '#0ea5e9',
-  '#64748b',
-];
 
 const CONFIDENCE_LABEL: Record<string, string> = {
   high: 'High',
@@ -327,32 +327,7 @@ function AllocationTab({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          {allocationData.length === 0 ? (
-            <p className="text-muted-foreground py-8 text-center text-sm">No data</p>
-          ) : (
-            <ResponsiveContainer width="100%" height={280}>
-              <PieChart>
-                <Pie
-                  data={allocationData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={110}
-                  paddingAngle={2}
-                  dataKey="value"
-                >
-                  {allocationData.map((_, i) => (
-                    <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  formatter={(value: number) => [formatInr(value), 'Value']}
-                  contentStyle={{ borderRadius: '8px', fontSize: '12px' }}
-                />
-                <Legend formatter={(value: string) => <span className="text-xs">{value}</span>} />
-              </PieChart>
-            </ResponsiveContainer>
-          )}
+          <AllocationChartDynamic data={allocationData} />
         </CardContent>
       </Card>
 

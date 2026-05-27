@@ -7,6 +7,7 @@ import { Info, TrendingDown, TrendingUp } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
+import { NumberTicker } from '@/components/ui/number-ticker';
 import { Skeleton } from '@/components/ui/skeleton';
 import { formatInr, formatPct, signedColor } from '@/lib/utils';
 
@@ -63,13 +64,15 @@ export function LiveNavWidget({ schemeCode }: { schemeCode: string }) {
         </div>
 
         <div className="flex items-baseline gap-3">
-          <p
-            className={`text-2xl font-semibold tabular-nums ${
+          <NumberTicker
+            value={nav.estimatedNav}
+            prefix="₹"
+            decimals={4}
+            className={`text-2xl font-semibold ${
               color === 'gain' ? 'text-gain' : color === 'loss' ? 'text-loss' : ''
             }`}
-          >
-            {formatInr(nav.estimatedNav)}
-          </p>
+            aria-label={`Live NAV: ₹${nav.estimatedNav.toFixed(4)}`}
+          />
           {TrendIcon && (
             <span
               className={`inline-flex items-center gap-1 text-sm font-medium tabular-nums ${

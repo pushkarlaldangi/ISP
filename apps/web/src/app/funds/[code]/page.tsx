@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
-import { desc, eq } from 'drizzle-orm';
+import { and, desc, eq } from 'drizzle-orm';
 import { notFound } from 'next/navigation';
+import { cookies } from 'next/headers';
 
+import { getCurrentUser } from '@isp/auth';
 import { getDb, schema } from '@isp/db';
 
 import { FundDetail } from './_components/fund-detail';
@@ -69,6 +71,26 @@ export default async function FundDetailPage({ params }: PageProps) {
   const data = await loadFund(code);
   if (!data) notFound();
 
+  // Check watchlist state for the current user (best-effort)
+  let signedIn = false;
+  let isWatched = false;
+  try {
+    const cookieStore = await cookies();
+    const me = await getCurrentUser(cookieStore);
+    if (me) {
+      signedIn = true;
+      const db = getDb();
+      const [wlRow] = await db
+        .select({ id: schema.watchlist.id })
+        .from(schema.watchlist)
+        .where(and(eq(schema.watchlist.userId, me.id), eq(schema.watchlist.schemeCode, code)))
+        .limit(1);
+      isWatched = !!wlRow;
+    }
+  } catch {
+    // Auth DB unreachable — degrade gracefully
+  }
+
   return (
     <main className="container mx-auto max-w-6xl px-4 py-10">
       <FundDetail
@@ -79,6 +101,8 @@ export default async function FundDetailPage({ params }: PageProps) {
         history={data.history}
         holdings={data.holdings}
         holdingsAsOf={data.holdingsAsOf}
+        signedIn={signedIn}
+        isWatched={isWatched}
       />
     </main>
   );
