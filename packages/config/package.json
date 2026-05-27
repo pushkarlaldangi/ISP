@@ -15,5 +15,8 @@
     "typecheck": "echo 'no typecheck for config'",
     "test": "echo 'no tests'",
     "clean": "echo 'nothing to clean'"
+  },
+  "dependencies": {
+    "@tailwindcss/typography": "^0.5.19"
   }
 }
